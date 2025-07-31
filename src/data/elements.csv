@@ -1,0 +1,201 @@
+name,description,set
+T00OSUB,Less: Other subsidies on production,sector_subsidy
+Trade,Trade margins,margin
+Trans,Transport margins,margin
+F02E,Nonresidential private fixed investment in equipment,exogenous_final_demand
+F02N,Nonresidential private fixed investment in intellectual property products,exogenous_final_demand
+F02R,Residential private fixed investment,exogenous_final_demand
+F02S,Nonresidential private fixed investment in structures,exogenous_final_demand
+F030,Change in private inventories,exogenous_final_demand
+F06C,National defense: Consumption expenditures,exogenous_final_demand
+F06E,Federal national defense: Gross investment in equipment,exogenous_final_demand
+F06N,Federal national defense: Gross investment in intellectual property products,exogenous_final_demand
+F06S,Federal national defense: Gross investment in structures,exogenous_final_demand
+F07C,Nondefense: Consumption expenditures,exogenous_final_demand
+F07E,Federal nondefense: Gross investment in equipment,exogenous_final_demand
+F07N,Federal nondefense: Gross investment in intellectual property products,exogenous_final_demand
+F07S,Federal nondefense: Gross investment in structures,exogenous_final_demand
+F10C,State and local government consumption expenditures,exogenous_final_demand
+F10E,State and local: Gross investment in equipment,exogenous_final_demand
+F10N,State and local: Gross investment in intellectual property products,exogenous_final_demand
+F10S,State and local: Gross investment in structures,exogenous_final_demand
+F010,Personal consumption expenditures,personal_consumption
+MDTY,Import duties,duty
+TOP,Tax on products,tax
+MCIF,import,import
+SUB,Subsidies on products,subsidy
+V001,Compensation of employees,labor_demand
+F040,Exports of goods and services,export
+111CA,Farms,commodity
+113FF,"Forestry, fishing, and related activities",commodity
+211,Oil and gas extraction,commodity
+212,"Mining, except oil and gas",commodity
+213,Support activities for mining,commodity
+22,Utilities,commodity
+23,Construction,commodity
+321,Wood products,commodity
+327,Nonmetallic mineral products,commodity
+331,Primary metals,commodity
+332,Fabricated metal products,commodity
+333,Machinery,commodity
+334,Computer and electronic products,commodity
+335,"Electrical equipment, appliances, and components",commodity
+3361MV,"Motor vehicles, bodies and trailers, and parts",commodity
+3364OT,Other transportation equipment,commodity
+337,Furniture and related products,commodity
+339,Miscellaneous manufacturing,commodity
+311FT,Food and beverage and tobacco products,commodity
+313TT,Textile mills and textile product mills,commodity
+315AL,Apparel and leather and allied products,commodity
+322,Paper products,commodity
+323,Printing and related support activities,commodity
+324,Petroleum and coal products,commodity
+325,Chemical products,commodity
+326,Plastics and rubber products,commodity
+42,Wholesale trade,commodity
+441,Motor vehicle and parts dealers,commodity
+445,Food and beverage stores,commodity
+452,General merchandise stores,commodity
+4A0,Other retail,commodity
+481,Air transportation,commodity
+482,Rail transportation,commodity
+483,Water transportation,commodity
+484,Truck transportation,commodity
+485,Transit and ground passenger transportation,commodity
+486,Pipeline transportation,commodity
+487OS,Other transportation and support activities,commodity
+493,Warehousing and storage,commodity
+511,"Publishing industries, except internet (includes software)",commodity
+512,Motion picture and sound recording industries,commodity
+513,Broadcasting and telecommunications,commodity
+514,"Data processing, internet publishing, and other information services",commodity
+521CI,"Federal Reserve banks, credit intermediation, and related activities",commodity
+523,"Securities, commodity contracts, and investments",commodity
+524,Insurance carriers and related activities,commodity
+525,"Funds, trusts, and other financial vehicles",commodity
+HS,Housing,commodity
+ORE,Other real estate,commodity
+532RL,Rental and leasing services and lessors of intangible assets,commodity
+5411,Legal services,commodity
+5415,Computer systems design and related services,commodity
+5412OP,"Miscellaneous professional, scientific, and technical services",commodity
+55,Management of companies and enterprises,commodity
+561,Administrative and support services,commodity
+562,Waste management and remediation services,commodity
+61,Educational services,commodity
+621,Ambulatory health care services,commodity
+622,Hospitals,commodity
+623,Nursing and residential care facilities,commodity
+624,Social assistance,commodity
+711AS,"Performing arts, spectator sports, museums, and related activities",commodity
+713,"Amusements, gambling, and recreation industries",commodity
+721,Accommodation,commodity
+722,Food services and drinking places,commodity
+81,"Other services, except government",commodity
+GFGD,Federal general government (defense),commodity
+GFGN,Federal general government (nondefense),commodity
+GFE,Federal government enterprises,commodity
+GSLG,State and local general government,commodity
+GSLE,State and local government enterprises,commodity
+Used,"Scrap, used and secondhand goods",commodity
+Other,Noncomparable imports and rest-of-the-world adjustment,commodity
+V003,Gross operating surplus,capital_demand
+T00OTOP,Other taxes on production,other_tax
+111CA,Farms,sector
+113FF,"Forestry, fishing, and related activities",sector
+211,Oil and gas extraction,sector
+212,"Mining, except oil and gas",sector
+213,Support activities for mining,sector
+22,Utilities,sector
+23,Construction,sector
+321,Wood products,sector
+327,Nonmetallic mineral products,sector
+331,Primary metals,sector
+332,Fabricated metal products,sector
+333,Machinery,sector
+334,Computer and electronic products,sector
+335,"Electrical equipment, appliances, and components",sector
+3361MV,"Motor vehicles, bodies and trailers, and parts",sector
+3364OT,Other transportation equipment,sector
+337,Furniture and related products,sector
+339,Miscellaneous manufacturing,sector
+311FT,Food and beverage and tobacco products,sector
+313TT,Textile mills and textile product mills,sector
+315AL,Apparel and leather and allied products,sector
+322,Paper products,sector
+323,Printing and related support activities,sector
+324,Petroleum and coal products,sector
+325,Chemical products,sector
+326,Plastics and rubber products,sector
+42,Wholesale trade,sector
+441,Motor vehicle and parts dealers,sector
+445,Food and beverage stores,sector
+452,General merchandise stores,sector
+4A0,Other retail,sector
+481,Air transportation,sector
+482,Rail transportation,sector
+483,Water transportation,sector
+484,Truck transportation,sector
+485,Transit and ground passenger transportation,sector
+486,Pipeline transportation,sector
+487OS,Other transportation and support activities,sector
+493,Warehousing and storage,sector
+511,"Publishing industries, except internet (includes software)",sector
+512,Motion picture and sound recording industries,sector
+513,Broadcasting and telecommunications,sector
+514,"Data processing, internet publishing, and other information services",sector
+521CI,"Federal Reserve banks, credit intermediation, and related activities",sector
+523,"Securities, commodity contracts, and investments",sector
+524,Insurance carriers and related activities,sector
+525,"Funds, trusts, and other financial vehicles",sector
+HS,Housing,sector
+ORE,Other real estate,sector
+532RL,Rental and leasing services and lessors of intangible assets,sector
+5411,Legal services,sector
+5415,Computer systems design and related services,sector
+5412OP,"Miscellaneous professional, scientific, and technical services",sector
+55,Management of companies and enterprises,sector
+561,Administrative and support services,sector
+562,Waste management and remediation services,sector
+61,Educational services,sector
+621,Ambulatory health care services,sector
+622,Hospitals,sector
+623,Nursing and residential care facilities,sector
+624,Social assistance,sector
+711AS,"Performing arts, spectator sports, museums, and related activities",sector
+713,"Amusements, gambling, and recreation industries",sector
+721,Accommodation,sector
+722,Food services and drinking places,sector
+81,"Other services, except government",sector
+GFGD,Federal general government (defense),sector
+GFGN,Federal general government (nondefense),sector
+GFE,Federal government enterprises,sector
+GSLG,State and local general government,sector
+GSLE,State and local government enterprises,sector
+1997,1997,year
+1998,1998,year
+1999,1999,year
+2000,2000,year
+2001,2001,year
+2002,2002,year
+2003,2003,year
+2004,2004,year
+2005,2005,year
+2006,2006,year
+2007,2007,year
+2008,2008,year
+2009,2009,year
+2010,2010,year
+2011,2011,year
+2012,2012,year
+2013,2013,year
+2014,2014,year
+2015,2015,year
+2016,2016,year
+2017,2017,year
+2018,2018,year
+2019,2019,year
+2020,2020,year
+2021,2021,year
+2022,2022,year
+2023,2023,year

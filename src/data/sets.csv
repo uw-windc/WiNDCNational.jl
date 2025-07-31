@@ -1,0 +1,16 @@
+name,description,domain
+sector_subsidy,Sectoral Subsidies (Created in 2020),row
+margin,Trade and Transport,col
+exogenous_final_demand,Exogenous categories of final demand (excludes PCE and exports),col
+personal_consumption,Personal Consumption Sectors,col
+duty,Import Sectors,col
+tax,Tax Sectors,col
+import,Import Sectors,col
+subsidy,Subsidy Sectors,col
+labor_demand,Labor Demand Commodities (Part of Value Added),row
+export,Export Sectors,col
+commodity,Commodities,row
+capital_demand,Capital Demand Commodities (Part of Value Added),row
+other_tax,Other Taxes on Production (Not part of Value Added),row
+sector,Sectors,col
+year,All years in WiNDC database,year
