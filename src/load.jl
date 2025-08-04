@@ -5,24 +5,28 @@ function load_table()
 
     DATA = CSV.read(joinpath(data_dir, "data.csv"), DataFrame, stringtype=String) |>
         x -> transform(x,
-            :parameter => ByRow(Symbol) => :parameter
+            [:row, :col, :parameter] .=> ByRow(Symbol) .=> [:row, :col, :parameter]
         )
     SETS = CSV.read(joinpath(data_dir, "sets.csv"), DataFrame, stringtype=String) |>
             x -> transform(x,
             [:name, :domain] .=> ByRow(Symbol) .=> [:name, :domain]
         )
 
-    ELEMENTS = CSV.read(joinpath(data_dir, "elements.csv"), DataFrame, stringtype=String) |>
+    ELEMENTS = CSV.read(
+            joinpath(data_dir, "elements.csv"), 
+            DataFrame, 
+            types = Dict(
+                :name => Symbol,
+                :description => String,
+                :set => Symbol
+            )
+        ) |>
         x -> transform(x,
-            :set => ByRow(Symbol) => :set
+            [:name, :set] => ByRow((n,s) -> s==:year ? parse(Int, String(n)) : n) => :name
         )
 
-    PARAMETERS = CSV.read(joinpath(data_dir, "parameters.csv"), DataFrame) |>
-        x -> transform(x,
-            names(x) .=> ByRow(Symbol) .=> names(x)
-        )
 
-    X = National(DATA, SETS, ELEMENTS, PARAMETERS; regularity_check = true)
+    X = National(DATA, SETS, ELEMENTS; regularity_check = true)
 
    return X
 end

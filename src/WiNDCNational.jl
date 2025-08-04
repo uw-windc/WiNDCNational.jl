@@ -5,13 +5,13 @@ module WiNDCNational
     using CSV
     using JuMP
 
-    import WiNDCContainer: WiNDCtable, table, sets, parameters, domain, elements
+    import WiNDCContainer: WiNDCtable, table, sets, domain, elements
     import WiNDCContainer: calibrate, calibrate_fix_variables, calibrate_constraints
 
 
     include("structs.jl")
 
-    export WiNDCtable, table, sets, parameters, domain, elements
+    export WiNDCtable, table, sets, domain, elements
 
     include("load.jl")
 
