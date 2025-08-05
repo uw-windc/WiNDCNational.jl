@@ -1,4 +1,6 @@
-struct National <: WiNDCtable
+abstract type AbstractNationalTable <: WiNDCtable end
+
+struct National <: AbstractNationalTable
     data::DataFrame
     sets::DataFrame
     elements::DataFrame
