@@ -1,4 +1,4 @@
-function load_table()
+function load_table_with_data()
 
     base_dir = @__DIR__
     data_dir = joinpath(base_dir, "data")
