@@ -1,0 +1,235 @@
+metadata:
+  years: "all"
+  supply_pattern: "supply_tables.*summary"
+  use_pattern: "use_tables.*summary"
+  transformation_keywords:
+    insurance_codes: ["524"]
+sets:
+  commodity:
+    description: "Commodities"
+    domain: "row"
+    values : "A8:A80"
+    descriptions : "B8:B80"
+    table: "supply"
+  sector:
+    description: "Sectors"
+    domain: "col"
+    values : "C6:BU6"
+    descriptions : "C7:BU7"
+    table: "supply"
+  import:
+    description: "Imports"
+    domain: "col"
+    values: "BW6"
+    descriptions: "BW7"
+    table: "supply"
+  cif_fob:
+    description: "CIF-FOB"
+    domain: "col"
+    values: "BX6"
+    descriptions: "BX7"
+    table: "supply"
+  trade:
+    description: "Trade"
+    domain: "col"
+    values: "BZ6"
+    descriptions: "BZ7"
+    table: "supply"
+  transport:
+    description: "Transport"
+    domain: "col"
+    values: "CA6"
+    descriptions: "CA7"
+    table: "supply"
+  duty:
+    description: "Duty"
+    domain: "col"
+    values: "CC6"
+    descriptions: "CC7"
+    table: "supply"
+  tax:
+    description: "Tax"
+    domain: "col"
+    values: "CD6"
+    descriptions: "CD7"
+    table: "supply"
+  subsidy:
+    description: "Subsidy"
+    domain: "col"
+    values: "CE6"
+    descriptions: "CE7"
+    table: "supply"
+
+  personal_consumption:
+    description: "Personal consumption expenditures"
+    domain: "col"
+    values: "BW6"
+    descriptions: "BW7"
+    table: "use"
+  investment_final_demand:
+    description: "Investment portions of final demand"
+    domain: "col"
+    values: "BX6:CB6"
+    descriptions: "BX7:CB7"
+    table: "use"
+  export:
+    description: "Exports"
+    domain: "col"
+    values: "CC6"
+    descriptions: "CC7"
+    table: "use"
+  government_final_demand:
+    description: "Government portions of final demand"
+    domain: "col"
+    values: "CD6:CO6"
+    descriptions: "CD7:CO7"
+    table: "use"
+  labor_demand:
+    description: "Compensation of employees"
+    domain: "row"
+    values: "A82"
+    descriptions: "B82"
+    table: "use"
+  capital_demand:
+    description: "Gross operating surplus"
+    domain: "row"
+    values: "A85"
+    descriptions: "B85"
+    table: "use"
+  sector_subsidy:
+    description: "Sector subsidy"
+    domain: "row"
+    values: "A84"
+    descriptions: "B84"
+    table: "use"
+  output_tax:
+    description: "Output tax"
+    domain: "row"
+    values: "A83"
+    descriptions: "B83"
+    table: "use"
+
+parameters:
+  intermediate_supply:
+    param: "Intermediate_Supply"
+    description: ""
+    row: "commodity"
+    col: "sector"
+    table: "supply"
+  cif_fob:
+    param: "CIF_FOB"
+    description: ""
+    row: "commodity"
+    col: "cif_fob"
+    table: "supply"
+  import:
+    param: "Import"
+    description: ""
+    row: "commodity"
+    col: "import"
+    table: "supply"
+  transport:
+    param: "Transport"
+    description: ""
+    row: "commodity"
+    col: "transport"
+    table: "supply"
+  trade:
+    param: "Trade"
+    description: ""
+    row: "commodity"
+    col: "trade"
+    table: "supply"
+  duty:
+    param: "Duty"
+    description: ""
+    row: "commodity"
+    col: "duty"
+    table: "supply"
+  tax:
+    param: "Tax"
+    description: ""
+    row: "commodity"
+    col: "tax"
+    table: "supply"
+  subsidy:
+    param: "Subsidy"
+    description: ""
+    row: "commodity"
+    col: "subsidy"
+    table: "supply"
+
+  intermediate_demand:
+    param: "Intermediate_Demand"
+    description: ""
+    row: "commodity"
+    col: "sector"
+    table: "use"
+
+  labor_demand:
+    param: "Labor_Demand"
+    description: ""
+    row: "labor_demand"
+    col: "sector"
+    table: "use"
+  capital_demand:
+    param: "Capital_Demand"
+    description: ""
+    row: "capital_demand"
+    col: "sector"
+    table: "use"
+
+  sector_subsidy:
+    param: "Sector_Subsidy"
+    description: ""
+    row: "sector_subsidy"
+    col: "sector"
+    flip_sign: true
+    table: "use"
+
+  output_tax:
+    param: "Output_Tax"
+    description: ""
+    row: "output_tax"
+    col: "sector"
+    table: "use"
+
+  personal_consumption:
+    param: "Personal_Consumption"
+    description: ""
+    row: "commodity"
+    col: "personal_consumption"
+    table: "use"
+
+  investment_final_demand:
+    param: "Investment_Final_Demand"
+    description: ""
+    row: "commodity"
+    col: "investment_final_demand"
+    table: "use"
+
+  export:
+    param: "Export"
+    description: ""
+    row: "commodity"
+    col: "export"
+    table: "use"
+
+  government_final_demand:
+    param: "Government_Final_Demand"
+    description: ""
+    row: "commodity"
+    col: "government_final_demand"
+    table: "use"
+
+
+composite_parameters:
+  Value_Added:
+    description: "Value added"
+    elements: ["labor_demand", "capital_demand"]
+  Final_Demand:
+    description: "Final demand"
+    elements: ["personal_consumption", "investment_final_demand", "government_final_demand", "export"]
+  Other_Final_Demand:
+    description: "Non-export components of final demand"
+    elements: ["personal_consumption", "investment_final_demand", "government_final_demand"]

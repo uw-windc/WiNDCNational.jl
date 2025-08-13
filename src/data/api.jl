@@ -42,7 +42,7 @@ function fetch_zip_data(
         mkpath(output_path)
     end
 
-    X = Downloads.download(url, "tmp.zip")
+    X = Downloads.download(url, joinpath(output_path,"tmp.zip"))
     r = ZipFile.Reader(X)
 
     extracted_files = String[]
@@ -102,3 +102,31 @@ function fetch_supply_use(
     return fetch_zip_data(url, filter_to_sut; output_path = output_path)
 end
 
+
+"""
+    download_supply_use(use_pattern::Regex, supply_pattern::Regex; output_path::String = tempname())
+
+Download the supply and use tables from the BEA. Return paths to each table.
+
+## Required Arguments
+    - use_pattern::Regex: A regex pattern to match the use tables.
+    - supply_pattern::Regex: A regex pattern to match the supply tables.
+
+## Optional Arguments
+    - output_path::String: The path to save the downloaded tables. Defaults to a temporary directory.
+
+## Return
+
+A `NamedTuple` containing the `use_path` and `supply_path`.
+"""
+function download_supply_use(use_pattern::Regex, supply_pattern::Regex; output_path::String = tempname())
+    file_paths = fetch_supply_use()
+
+    use_ = contains.(lowercase.(basename.(file_paths)), use_pattern)
+    use_path = file_paths[use_][1]
+
+    supply_ = contains.(lowercase.(basename.(file_paths)), supply_pattern)
+    supply_path = file_paths[supply_][1]
+
+    return (use_path = use_path, supply_path = supply_path)
+end
