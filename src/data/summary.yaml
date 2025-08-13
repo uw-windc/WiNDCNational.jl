@@ -1,7 +1,5 @@
 metadata:
   years: "all"
-  supply_path: "C:\\Users\\Mitch\\Documents\\WiNDC\\windc_raw_data\\2023\\Supply_Tables_1997-2023_Summary.xlsx"
-  use_path: "C:\\Users\\Mitch\\Documents\\WiNDC\\windc_raw_data\\2023\\Use_Tables_Supply-Use_Framework_1997-2023_Summary.xlsx"
   supply_pattern: "supply_tables.*summary"
   use_pattern: "use_tables.*summary"
   transformation_keywords:
