@@ -232,3 +232,6 @@ composite_parameters:
   Final_Demand:
     description: "Final demand"
     elements: ["personal_consumption", "investment_final_demand", "government_final_demand", "export"]
+  Other_Final_Demand:
+    description: "Non-export components of final demand"
+    elements: ["personal_consumption", "investment_final_demand", "government_final_demand"]
