@@ -67,7 +67,66 @@ function initialize_tables(years::Vector{String})
 end
 
 
+"""
+    load_national_yaml(yaml_path::String)
 
+Load the YAML file that describes the national tables. This function also ensures 
+the file has the correct structure and fields.
+
+Examples of this file are available for the [summary data](joinpath(@__DIR__, "summary.yaml")) and
+[detailed data](joinpath(@__DIR__, "detailed.yaml")).
+
+## Structure of YAML file
+
+### metadata
+
+- years: A list of years covered by the data (e.g., [2020, 2021, 2022]). Defaults to "all".
+- supply_path: The path to the supply data. Defaults to ""
+- use_path: The path to the use data. Defaults to ""
+- supply_pattern: A regex pattern to match the file name of the supply table. Defaults to ""
+- use_pattern: A regex pattern to match the file name of the use table. Defaults to ""
+- transformation_keywords: A list of keywords for data transformation. Defaults to []
+
+You must either specify both `use_path` and `supply_path` or `supply_pattern` and
+`use_pattern`. 
+
+The `transformation_keywords` are used to pass parameters to the data transformation 
+functions. In particular, it's useful to have an `insurance_codes` keyword for 
+the redistribution of `CIF_FOB` data to imports and transport.
+
+### sets
+
+Each set is listed with the following attributes:
+
+- description - A description for the set
+- domain - Which column the set operates on
+- values - An Excel range that corresponds to the NAICS codes
+- descriptions - An Excel range that corresponds to the descriptions of the NAICS codes
+- table - Either "use" or "supply"
+
+### parameters
+
+Each parameter name is listed with the following attributes:
+
+- param - The name of the parameter. This acts as the set to access the parameter.
+- description - A description of the parameter
+- row - The row set of the parameter.
+- col - The column set of the parameter
+- table - Either "use" or "supply"
+- flip_sign - Boolean, changes the sign of the data. Only used on `sector_subsidy` 
+    since the values are reported as positive, but must be negative.
+
+The parameters reference the sets, you shouldn't need to update the parameters if
+you only change the sets.
+
+### composite_parameters
+
+Each composite parameter is listed with the following attributes:
+
+- description - A description of the composite parameter
+- elements - A list of elements that make up the composite parameter. These should be parameter names
+
+"""
 function load_national_yaml(yaml_path::String)
     info = YAML.load_file(yaml_path)
 
