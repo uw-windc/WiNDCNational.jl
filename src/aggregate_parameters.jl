@@ -29,9 +29,9 @@ function gross_output(X::AbstractNationalTable; column = :value, output = :value
     exclude_domain = domain(X, :sector)
     group_domain = [d for d in domain(X) if d != exclude_domain]
 
-    return table(X, :IntermediateSupply, :HouseholdSupply, :MarginSupply) |>
+    return table(X, :Intermediate_Supply, :Household_Supply, :Margin_Supply) |>
         x -> groupby(x, group_domain) |>
-        x -> combine(x, column => (x -> -sum(x; init=0)) => output)
+        x -> combine(x, column => (x -> sum(x; init=0)) => output)
 end
 
 
@@ -63,9 +63,9 @@ Returns a DataFrame with the columns `:sectors` and `:value`.
 function armington_supply(data::AbstractNationalTable; column = :value, output = :value)
     exclude_domain = domain(data, :sector)
     group_domain = [d for d in domain(data) if d != exclude_domain]
-    return table(data, :IntermediateDemand, :ExogenousFinalDemand, :PersonalConsumption) |>
+    return table(data, :Intermediate_Demand, :Other_Final_Demand, :Personal_Consumption) |>
         x -> groupby(x, group_domain) |>
-        x -> combine(x, column => (y -> sum(y; init = 0)) => output)
+        x -> combine(x, column => (y -> -sum(y; init = 0)) => output)
     
 
 end
@@ -74,7 +74,7 @@ end
 function output_tax(data::AbstractNationalTable; column = :value, output = :value) 
     exclude_domain = :row
     group_domain = [d for d in domain(data) if d != exclude_domain]
-    return table(data, :OtherTax, :SectorSubsidy) |>
+    return table(data, :Output_Tax, :Sector_Subsidy) |>
         x -> groupby(x, group_domain) |>
         x -> combine(x, column => (y -> sum(y;init=0)) => output)
 end
@@ -84,14 +84,14 @@ end
 function sectoral_output(data::AbstractNationalTable; column = :value, output = :value)
     exclude_domain = :row
     group_domain = [d for d in domain(data) if d != exclude_domain]
-    return table(data, :IntermediateDemand, :ValueAdded, :OtherTax) |>
+    return table(data, :Intermediate_Demand, :Value_Added, :Output_Tax, :Sector_Subsidy) |>
         x -> groupby(x, group_domain) |>
         x -> combine(x, column => sum => output)
 
 end
 
 """
-    other_tax_rate(data::AbstractNationalTable; column = :value, output = :value)
+    output_tax_rate(data::AbstractNationalTable; column = :value, output = :value)
 
 Calculate the other tax rate of the sectors.
 
@@ -130,7 +130,7 @@ end
 function absorption_tax(data::AbstractNationalTable; column = :value, output = :value) 
     exclude_domain = :col
     group_domain = [d for d in domain(data) if d != exclude_domain]
-    return table(data, :tax, :subsidies) |>
+    return table(data, :Tax, :Subsidy) |>
         x -> groupby(x, group_domain) |>
         x -> combine(x, column => (y -> -sum(y; init = 0)) => output) 
 
@@ -191,19 +191,18 @@ Calculate the import tariff rate of the sectors.
 Returns a DataFrame with the columns `:sectors` and `:value`.
 """
 function import_tariff_rate(X::AbstractNationalTable; column = :value, output = :value)
-    return innerjoin(
-        table(X, :imports, column = column, output = :imports) |> x-> select(x, Not(:parameter, :col)),
-        table(X, :duty; column = column, output = :duty) |> x-> select(x, Not(:parameter, :col)),
-        on = [:row, :year]
-    )  |>
+    return table(X, :Import, :Duty) |>
+        x -> select(x, Not(:col)) |>
+        x -> unstack(x, :parameter, :value) |>
+        dropmissing |>
         x -> transform(x,
-            [:duty, :imports] => ByRow((d,i) -> i==0 ? 0 : d/i) => output
+            [:duty, :import] => ByRow((d,i) -> i==0 ? 0 : d/i) => output
         ) |>
-        x -> select(x, Not(:duty, :imports)) 
+        x -> select(x, Not(:duty, :import)) 
 end
 
 function balance_of_payments(data::AbstractNationalTable; column = :value, output = :value)
-    return table(X, :imports, :exports) |>
+    return table(X, :Import, :Export) |>
         x -> groupby(x, :year) |>
         x -> combine(x, :value => (y -> -sum(y; init = 0)) => :value) 
 end
