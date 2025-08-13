@@ -339,6 +339,8 @@ end
 Split both the `Trade` and `Transport` parameters in to `Margin_Demand` (positive
 values) and `Margin_Supply` (negative values).
 
+Also create the set `margin` which points at the `Transport` and `Trade` sectors.
+
 Return a National table.
 """
 function create_margin_categories(X::National; kwargs...)
@@ -365,14 +367,25 @@ function create_margin_categories(X::National; kwargs...)
             :name => ByRow(!∈([:Transport, :Trade]))
         ) |>
         x -> push!(x, (name = :Margin_Demand, description = "Positive values in marginal categories", domain = :parameter)) |>
-        x -> push!(x, (name = :Margin_Supply, description = "Negative values in marginal categories", domain = :parameter))
+        x -> push!(x, (name = :Margin_Supply, description = "Negative values in marginal categories", domain = :parameter)) |>
+        x -> push!(x, (name = :margin, description = "Margin sectors", domain = :col))
+
+
+
 
     ELEMENTS = ELEMENTS |>
         x -> subset(x,
             :set => ByRow(!∈([:Transport, :Trade]))
         ) |>
         x -> push!(x, (name = :margin_demand, description = "Margin Demand", set = :Margin_Demand)) |>
-        x -> push!(x, (name = :margin_supply, description = "Margin Supply", set = :Margin_Supply))
+        x -> push!(x, (name = :margin_supply, description = "Margin Supply", set = :Margin_Supply)) |>
+        x -> vcat(
+            x,
+            elements(X, :transport, :trade) |>
+                x -> transform(x,
+                    :set => ByRow(y -> :margin) => :set
+                )
+        )
 
     return National(DATA, SETS, ELEMENTS; regularity_check=true)
 
