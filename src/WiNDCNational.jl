@@ -2,7 +2,7 @@ module WiNDCNational
 
     using WiNDCContainer
     using DataFrames
-    using CSV, Downloads, XLSX, ZipFile
+    using CSV, Downloads, XLSX, ZipFile, YAML
     using JuMP
     using MPSGE
 
@@ -12,7 +12,7 @@ module WiNDCNational
 
     include("structs.jl")
 
-    export WiNDCtable, table, sets, domain, elements
+    export National, WiNDCtable, table, sets, domain, elements
 
     include("load.jl")
 
@@ -29,7 +29,11 @@ module WiNDCNational
 
     include("data/api.jl")
 
-    export fetch_supply_use
+    export download_supply_use
+
+    include("data/build.jl")
+
+    export build_national_table
 
 
 
