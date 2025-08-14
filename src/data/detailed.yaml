@@ -216,6 +216,9 @@ composite_parameters:
   Final_Demand:
     description: "Final demand"
     elements: ["personal_consumption", "investment_final_demand", "government_final_demand", "export"]
+  Other_Final_Demand:
+    description: "Non-export components of final demand"
+    elements: ["personal_consumption", "investment_final_demand", "government_final_demand"]
 
   Sector_Subsidy:
     description: "This parameter exists in the summary tables, but not in the 2017 detailed tables. It may be added to the detailed tables in the future."
