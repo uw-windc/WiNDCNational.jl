@@ -627,16 +627,16 @@ and `:parameter` is filled with `parameter`.
 ```
 """
 function import_tariff_rate(
-        X::AbstractNationalTable; 
+        data::AbstractNationalTable; 
         column::Symbol = :value, 
         output::Symbol = :value,
         parameter::Symbol = :import_tariff_rate,
         minimal::Bool = true
     )
-    X = table(X, :Import, :Duty) |>
+    X = table(data, :Import, :Duty) |>
         x -> select(x, Not(:col)) |>
         x -> unstack(x, :parameter, column) |>
-        x -> coalesce.(x, 0) |>
+        dropmissing |>
         x -> transform(x,
             [:duty, :import] => ByRow((d,i) -> i==0 ? 0 : d/i) => output,
             :row => ByRow(_ -> (:itr, parameter)) => [:col, :parameter]
