@@ -1,12 +1,6 @@
 # WiNDC National
 
-If you clone this repository you may need to `add` the `WiNDCContainer` package to the package environment. 
-```
-pkg> add https://github.com/uw-windc/WiNDCContainer.jl
-```
-This is an unregistered package that this project depends on. When the package gets registered I'll remove this warning.
-
-This package is a work in progress and you can expect changes to the API and functionality as we continue to develop it.
+This package contains methods to build the WiNDC National data from the source BEA input/output tables. 
 
 ## Example Usage
 
@@ -14,7 +8,7 @@ This package is a work in progress and you can expect changes to the API and fun
 using WiNDCNational
 using DataFrames
 
-X = load_table()
+X = build_national_table(:summary)
 
 Y, M = calibrate(X) # Example calibration. Data should already be balanced.
 
