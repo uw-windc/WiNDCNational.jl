@@ -15,7 +15,7 @@ const _PAGES = [
 
 
 literate_files = Dict(
-    "basic_rc" => ( 
+    "sets" => ( 
         input = "src/sets.jl",
         output = "src/"
     ),
