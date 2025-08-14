@@ -4,10 +4,32 @@ using Documenter, WiNDCNational
 
 const _PAGES = [
     "Introduction" => ["index.md"],
-    "Data" => ["data_sources.md"],
+    "Data" => [
+        "data_sources.md",
+        "data_build.md",
+        "sets.md"
+        ],
     "National Module" => ["overview.md"],
     "API" => ["api.md"]
 ]
+
+
+literate_files = Dict(
+    "basic_rc" => ( 
+        input = "src/sets.jl",
+        output = "src/"
+    ),
+)
+
+
+for (name, paths) in literate_files
+    EXAMPLE = joinpath(@__DIR__, paths.input)
+    OUTPUT = joinpath(@__DIR__, paths.output)
+    Literate.markdown(EXAMPLE, 
+                      OUTPUT;
+                      name = name)
+end
+
 
 
 makedocs(

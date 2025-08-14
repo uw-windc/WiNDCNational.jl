@@ -193,7 +193,7 @@ file describing the sets and parameters in the excel files. For convenience,
 you can also call this function with the `:summary` or `:detailed` symbols to 
 load the corresponding YAML files.
 
-For a full discussion on the structure of the YAML files, refer to the documentation.
+For a full discussion on the structure of the YAML files, refer to [`load_national_yaml`](@ref).
 """
 function build_national_table(yaml_path::String)
     info = load_national_yaml(yaml_path)
