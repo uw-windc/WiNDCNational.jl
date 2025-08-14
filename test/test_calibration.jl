@@ -6,4 +6,12 @@
 
     @test is_solved_and_feasible(M)
 
+
+
+    detailed = build_national_table(:detailed)
+    Y,M = calibrate(detailed)
+
+    @test is_solved_and_feasible(M)
+
+
 end
