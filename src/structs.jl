@@ -1,5 +1,15 @@
 abstract type AbstractNationalTable <: WiNDCtable end
 
+
+"""
+    National
+
+The primary container for national data tables. There are three fields, all dataframes:
+
+- `data`: The main data table.
+- `sets`: The sets table, describing the different sets used in the model.
+- `elements`: The elements table, describing the different elements in the model.
+"""
 struct National <: AbstractNationalTable
     data::DataFrame
     sets::DataFrame
