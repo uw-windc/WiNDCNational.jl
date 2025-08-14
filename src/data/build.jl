@@ -327,9 +327,9 @@ end
 """
     redistribute_cif_fob(X::National; insurance_codes::Vector{String} = [], kwargs...)
 
-Redistribute the CIF\_FOB parameter to Transport and Import, add all insurance 
+Redistribute the CIF\\_FOB parameter to Transport and Import, add all insurance 
 commodities values to Import and non-insurance commodities to Transport. Remove 
-CIF\_FOB parameter. 
+CIF\\_FOB parameter. 
 
 Returns a National table.
 """
@@ -380,12 +380,12 @@ function redistribute_cif_fob(X::National; insurance_codes::Vector{String} = [],
 
     SETS = SETS |> 
         x -> subset(x,
-            :name => ByRow(!=(:CIF_FOB))
+            :name => ByRow(!∈([:cif_fob,:CIF_FOB]))
         )
 
     ELEMENTS = ELEMENTS |>
         x -> subset(x,
-            :set => ByRow(!=(:CIF_FOB))
+            :set => ByRow(!∈([:cif_fob, :CIF_FOB]))
         )
 
     return National(DATA, SETS, ELEMENTS; regularity_check=true)
