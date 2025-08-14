@@ -20,7 +20,7 @@ module WiNDCNational
 
     include("aggregate_parameters.jl")
 
-    export gross_output, armington_supply, output_tax, sectoral_output, output_tax_rate,
+    export zero_profit, market_clearance, margin_balance, gross_output, armington_supply, output_tax, sectoral_output, output_tax_rate,
         absorption_tax, absorption_tax_rate, import_tariff_rate, balance_of_payments
 
     include("calibrate.jl")
