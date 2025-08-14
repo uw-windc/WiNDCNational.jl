@@ -1,4 +1,92 @@
 """
+    zero_profit(X::AbstractNationalTable; column = :value, output = :value)
+
+Calculate the zero profit condition. For each sector, the zero profit 
+condition is defined as the sum of the following parameters:
+
+- `Intermediate_Demand`
+- `Intermediate_Supply`
+- `Value_Added`
+
+Recall we consider inputs and outputs to have opposite signs, which makes everything 
+addition.
+
+Returns a DataFrame with columns [:col, :row, :year, :parameter, output], where 
+`output` is the renamed `column` column. Note that `:row` and `:parameter` are 
+filled with `:zero_profit`.
+"""
+function zero_profit(X::AbstractNationalTable; column = :value, output = :value)
+    return table(X, :sector) |>
+        x -> groupby(x, [:col, :year]) |>
+        x -> combine(x, column => sum => output) |>
+        x -> transform(x, 
+            :col => ByRow(_ -> (:zp, :zero_profit)) => [:row, :parameter]
+        ) |>
+        x -> select(x, [:row, :col, :year, :parameter, output])
+end
+
+"""
+    market_clearance(X::AbstractNationalTable; column = :value, output = :value)
+
+Calculate the market clearance condition. For each commodity, the market 
+clearance condition is defined as the sum of the following parameters:
+
+- `Intermediate_Demand`
+- `Final_Demand`
+- `Intermediate_Supply`
+- `Household_Supply`
+- `Margin_Supply`
+- `Margin_Demand`
+- `Imports`
+- `Tax`
+- `Duty`
+- `Subsidies`
+
+Recall we consider inputs and outputs to have opposite signs, which makes everything 
+addition.
+
+Returns a DataFrame with columns [:col, :row, :year, :parameter, output], where 
+`output` is the renamed `column` column. Note that `:col` and `:parameter` are 
+filled with `:market_clearance`.
+"""
+function market_clearance(X::AbstractNationalTable; column = :value, output = :value)
+    return table(X, :commodity) |>
+        x -> groupby(x, [:row, :year]) |>
+        x -> combine(x, column => sum => output) |>
+        x -> transform(x, 
+            :row => ByRow(_ -> (:mc, :market_clearance)) => [:col, :parameter]
+        ) |>
+        x -> select(x, [:row, :col, :year, :parameter, output])
+end
+
+"""
+    margin_balance(X::AbstractNationalTable; column = :value, output = :value)
+
+Calculate the margin balance condition. For each margin, the margin 
+balance condition is defined as the sum of the following parameters:
+
+- `Margin_Supply`
+- `Margin_Demand`
+
+Recall we consider inputs and outputs to have opposite signs, which makes everything 
+addition.
+
+Returns a DataFrame with columns [:col, :row, :year, :parameter, output], where 
+`output` is the renamed `column` column. Note that `:col` and `:parameter` are 
+filled with `:margin_balance`.
+"""
+function margin_balance(X::AbstractNationalTable; column = :value, output = :value)
+    return table(X, :margin) |>
+        x -> groupby(x, [:col, :year]) |>
+        x -> combine(x, column => sum => output) |>
+        x -> transform(x, 
+            :row => ByRow(_ -> (:mb, :margin_balance)) => [:col, :parameter]
+        ) |>
+        x -> select(x, [:row, :col, :year, :parameter, output])
+end
+
+
+"""
     gross_output(data::AbstractNationalTable; column::Symbol = :value, output::Symbol = :value)
 
 Calculate the gross output of the sectors.
