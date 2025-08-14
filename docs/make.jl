@@ -1,4 +1,4 @@
-using Documenter, WiNDCNational, PATHSolver
+using Documenter, WiNDCNational
 
 
 
