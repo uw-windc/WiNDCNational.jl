@@ -73,8 +73,8 @@ end
 Load the YAML file that describes the national tables. This function also ensures 
 the file has the correct structure and fields.
 
-Examples of this file are available for the [summary data](joinpath(@__DIR__, "summary.yaml")) and
-[detailed data](joinpath(@__DIR__, "detailed.yaml")).
+Examples of this file are available for the [summary data](https://github.com/uw-windc/WiNDCNational.jl/blob/main/src/data/summary.yaml) and
+[detailed data](https://github.com/uw-windc/WiNDCNational.jl/blob/main/src/data/detailed.yaml).
 
 ## Structure of YAML file
 
