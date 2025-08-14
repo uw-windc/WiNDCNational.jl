@@ -8,10 +8,9 @@
 # tables. For this reason we will use the `summary` table as the basis for our
 # examples.
 
-# Assume `summary` is the variable holding the summary table.
-
-using WiNDCNational # hide
-summary = build_national_table(:summary) # hide
+using WiNDCNational 
+using DataFrames
+summary = build_national_table(:summary); 
 
 # ## Sets
 
