@@ -6,13 +6,14 @@ module WiNDCNational
     using JuMP
     using MPSGE
 
-    import WiNDCContainer: WiNDCtable, table, sets, domain, elements
+    import WiNDCContainer: WiNDCtable, table, sets, domain, elements, base_table
     import WiNDCContainer: calibrate, calibrate_fix_variables, calibrate_constraints
+    import DataStructures: DefaultDict
 
 
     include("structs.jl")
 
-    export National, WiNDCtable, table, sets, domain, elements
+    export National, WiNDCtable, table, sets, domain, elements, base_table
 
     include("load.jl")
 
@@ -34,6 +35,11 @@ module WiNDCNational
     include("data/build.jl")
 
     export build_national_table
+
+
+    include("model.jl")
+
+    export national_mpsge
 
 
 
