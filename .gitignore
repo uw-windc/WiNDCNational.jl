@@ -28,3 +28,5 @@ LocalPreferences.toml
 JuliaLocalPreferences.toml
 
 main.jl
+settings.json
+.vscode/settings.json
