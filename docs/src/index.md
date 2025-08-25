@@ -3,7 +3,7 @@
 The WiNDC National Module contains methods for analyzing national level input/output tables, with a focus on the United States Supply/Use framework tables.
 
 !!! note
-    All input values are negative and outputs are positive. We take this convention to reduce the complexity of computations. To normalize the data use the syntax `table(X; normalize = :Use`, this will reverse the flow of all `Use` parameters.
+    All input values are negative and outputs are positive. We take this convention to reduce the complexity of computations. To normalize the data use the syntax `table(X; normalize = :Use)`, this will reverse the flow of all `Use` parameters.
 
 ## Basic Usage
 
