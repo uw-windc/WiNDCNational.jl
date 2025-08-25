@@ -3,7 +3,7 @@
 The WiNDC National Module contains methods for analyzing national level input/output tables, with a focus on the United States Supply/Use framework tables.
 
 !!! note
-    All input values are negative and outputs are positive. We take this convention to reduce the complexity of computations. 
+    All input values are negative and outputs are positive. We take this convention to reduce the complexity of computations. To normalize the data use the syntax `table(X; normalize = :Use`, this will reverse the flow of all `Use` parameters.
 
 ## Basic Usage
 
@@ -12,6 +12,7 @@ The summary-level data can be downloaded and calibrated using two functions:
 ```julia
 using WiNDCNational
 using DataFrames
+import MPSGE
 
 summary = build_national_table(:summary) # replace :summary with :detailed for the detailed tables
 
@@ -24,6 +25,13 @@ Y,_ = calibrate(summary) # Calibrate returns both a new table and the JuMP model
 zero_profit(Y) # The zero profit condition is now satisfied. 
 market_clearance(Y)
 margin_balance(Y)
+
+M = mpsge_national(Y)
+MPSGE.solve!(M; cumulative_iteration_limit=0) # Solve at benchmark
+
+MPSGE.set_value!.(M[:Absorption_Tax], 0) # Set some taxes to 0
+MPSGE.solve!(M)
+
 ```
 
 ## Installation

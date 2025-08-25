@@ -12,14 +12,15 @@ This package contains methods to build the WiNDC National data from the source B
 ```julia
 using WiNDCNational
 using DataFrames
+import MPSGE # import MPSGE to avoid name conflicts
+
 
 X = build_national_table(:summary)
 
-Y, M = calibrate(X) # Example calibration. Data should already be balanced.
+Y, M = calibrate(X) # Calibrate the model
 
 
 # Compare pre-calibration and post-calibration data
-# They're the same so nothing gets printed.
 leftjoin(
     table(X),
     table(Y),
@@ -31,5 +32,13 @@ x -> transform(x,
 ) |>
 x -> subset(x, :diff => ByRow(>(1e-6))) |>
 x -> sort(x, :diff)
+
+
+
+M = national_mpsge(Y; year = 2023)
+MPSGE.solve!(M; cumulative_iteration_limit=0) # Solve at benchmark
+
+MPSGE.set_value!.(M[:Absorption_Tax], 0) # Set some taxes to 0
+MPSGE.solve!(M)
 ```
 

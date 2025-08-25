@@ -48,15 +48,15 @@ x -> DefaultDict(0, Dict((row[:row], row[:col], parameter_col(row[:parameter])) 
 x -> 
 @production(M, Y[s=sectors], [t=0,s=0, va => s=1], begin
     @output(PY[c=commodities], x[c, s, :intermediate_supply], t, taxes = [Tax(RA, Output_Tax[s])])
-    @input(PA[c=commodities], x[c, s, :intermediate_demand], s) # Heads up, negative
-    @input(PVA[va = value_added], x[va, s, :value_added], va)   # Heads up, negative
+    @input(PA[c=commodities], x[c, s, :intermediate_demand], s) 
+    @input(PVA[va = value_added], x[va, s, :value_added], va)  
 end)
 
 table(X, :Margin_Supply; normalize=:Margin_Supply) |>
 x -> DefaultDict(0, Dict((row[:row], row[:col]) => row[:value] for row in eachrow(x))) |>
 x -> 
 @production(M, MS[m=margins], [t=0, s=0], begin
-    @output(PM[m], sum(x[c, m] for c in commodities if x[c, m] != 0), t) # Heads up, negative
+    @output(PM[m], sum(x[c, m] for c in commodities if x[c, m] != 0), t) 
     @input(PY[c=commodities], x[c,m], s)
 end)
 
@@ -91,10 +91,10 @@ vcat(
 ) |> 
 x -> DefaultDict(0, Dict((row[:row], row[:col], parameter_col(row[:parameter])) => row[:value] for row in eachrow(x))) |>
 x -> @demand(M, RA, begin
-    @final_demand(PA[c=commodities], sum(x[c, pce, :personal_consumption] for pce in PCE)) # Negative ##NAICS
-    @endowment(PY[c=commodities], sum(x[c, hhs, :household_supply] for hhs in HHS)) ## NAICS
+    @final_demand(PA[c=commodities], sum(x[c, pce, :personal_consumption] for pce in PCE))
+    @endowment(PY[c=commodities], sum(x[c, hhs, :household_supply] for hhs in HHS))
     @endowment(PFX, x[:bop, :bop, :balance_of_payments])
-    @endowment(PA[c=commodities], -x[c, :ofd, :ofd]) # Double negative
+    @endowment(PA[c=commodities], -x[c, :ofd, :ofd])
     @endowment(PVA[va=value_added], sum(x[va, s, :value_added] for s∈sectors))
 end)
 
