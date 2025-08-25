@@ -233,3 +233,9 @@ composite_parameters:
   Other_Final_Demand:
     description: "Non-export components of final demand"
     elements: ["personal_consumption", "investment_final_demand", "government_final_demand"]
+  Use:
+    description: "Use (or input) sections of the IO table"
+    elements: ["intermediate_demand", "labor_demand", "capital_demand", "sector_subsidy", "output_tax", "personal_consumption", "investment_final_demand", "government_final_demand", "export", "margin_supply"]
+  Supply:
+    description: "Supply (or output) sections of the IO table"
+    elements: ["intermediate_supply", "import", "margin_demand", "duty", "tax", "subsidy"]
