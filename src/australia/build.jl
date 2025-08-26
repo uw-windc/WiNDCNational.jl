@@ -3,7 +3,7 @@
 """
     build_australia_table(yaml_path::String)
 
-Build the Australia national table. Structure YAML file as specified by [build_national_table](@ref).
+Build the Australia national table. Structure YAML file as specified by [`build_national_table`](@ref).
 
 !!!note
     The data files provided by Australia are only available in XLSB format, which
