@@ -10,7 +10,7 @@
 
 using WiNDCNational 
 using DataFrames
-summary = build_national_table(:summary); 
+summary = build_us_table(:summary); 
 
 # ## Sets
 
