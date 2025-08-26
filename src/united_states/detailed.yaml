@@ -1,9 +1,19 @@
 metadata:
-  years: "all"
-  supply_pattern: "supply.*det"
-  use_pattern: "use.*det"
+  years: 
+    "2017": 2017
+    "2012": 2012
+    "2007": 2007
+  download_url_common: "https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip"
+  download:
+    supply:
+      pattern: "^Supply.*DET.xlsx$"
+    use:
+      pattern: "^Use.*_DET.xlsx$"
   transformation_keywords:
-    insurance_codes: ["524113","5241XX","524200"]
+    insurance_codes: 
+      - "524113"
+      - "5241XX"
+      - "524200"
 sets:
   commodity:
     description: "Commodities"
@@ -212,19 +222,47 @@ parameters:
 composite_parameters:
   Value_Added:
     description: "Value added"
-    elements: ["labor_demand", "capital_demand"]
+    elements: 
+      - "labor_demand"
+      - "capital_demand"
   Final_Demand:
     description: "Final demand"
-    elements: ["personal_consumption", "investment_final_demand", "government_final_demand", "export"]
+    elements: 
+      - "personal_consumption"
+      - "investment_final_demand"
+      - "government_final_demand"
+      - "export"
   Other_Final_Demand:
     description: "Non-export components of final demand"
-    elements: ["personal_consumption", "investment_final_demand", "government_final_demand"]
+    elements: 
+      - "personal_consumption"
+      - "investment_final_demand"
+      - "government_final_demand"
+
   Sector_Subsidy:
     description: "This parameter exists in the summary tables, but not in the 2017 detailed tables. It may be added to the detailed tables in the future."
-    elements: ["sector_subsidy"]
+    elements: 
+      - "sector_subsidy"
+
   Use:
     description: "Use (or input) sections of the IO table"
-    elements: ["intermediate_demand", "labor_demand", "capital_demand", "sector_subsidy", "output_tax", "personal_consumption", "investment_final_demand", "government_final_demand", "export", "margin_supply"]
+    elements: 
+      - "intermediate_demand"
+      - "labor_demand"
+      - "capital_demand"
+      - "sector_subsidy"
+      - "output_tax"
+      - "personal_consumption"
+      - "investment_final_demand"
+      - "government_final_demand"
+      - "export"
+      - "margin_supply"
   Supply:
     description: "Supply (or output) sections of the IO table"
-    elements: ["intermediate_supply", "import", "margin_demand", "duty", "tax", "subsidy"]
+    elements: 
+      - "intermediate_supply"
+      - "import"
+      - "margin_demand"
+      - "duty"
+      - "tax"
+      - "subsidy"

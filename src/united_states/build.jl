@@ -1,8 +1,6 @@
 
 
 function build_us_table(yaml_path::String)#aggregation::Symbol = :summary)
-    #aggregation ∈ [:summary, :detailed] || error("Aggregation must be either :summary or :detailed")
-    #yaml_path = joinpath(@__DIR__, "$aggregation.yaml")
     X, metadata = build_national_table(yaml_path, National)
 
     
@@ -14,8 +12,14 @@ function build_us_table(yaml_path::String)#aggregation::Symbol = :summary)
     X = adjust_intermediate_flows(X; transformation_keywords...)
 
     return X
-
 end
+
+function build_us_table(aggregation::Symbol = :summary)
+    aggregation ∈ [:summary, :detailed] || error("Aggregation must be either :summary or :detailed")
+    yaml_path = joinpath(@__DIR__, "$aggregation.yaml")
+    return build_us_table(yaml_path)
+end
+
 
 """
     redistribute_cif_fob(X::National; insurance_codes::Vector{String} = [], kwargs...)
