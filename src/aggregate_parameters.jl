@@ -638,7 +638,7 @@ function import_tariff_rate(
         x -> unstack(x, :parameter, column) |>
         dropmissing 
         
-    if :duty ∉ names(X)
+    if "duty" ∉ names(X)
         return DataFrame(:row => Symbol[], :col => Symbol[], :year => Int[], output => Any[], :parameter => Symbol[])
     end
         

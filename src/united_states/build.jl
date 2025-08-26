@@ -1,9 +1,9 @@
 
 
-function build_us_table(aggregation::Symbol = :summary)
-    aggregation ∈ [:summary, :detailed] || error("Aggregation must be either :summary or :detailed")
-    yaml_path = joinpath(@__DIR__, "$aggregation.yaml")
-    X, metadata = build_national_table(yaml_path)
+function build_us_table(yaml_path::String)#aggregation::Symbol = :summary)
+    #aggregation ∈ [:summary, :detailed] || error("Aggregation must be either :summary or :detailed")
+    #yaml_path = joinpath(@__DIR__, "$aggregation.yaml")
+    X, metadata = build_national_table(yaml_path, National)
 
     
     transformation_keywords = get(metadata, "transformation_keywords", Dict())

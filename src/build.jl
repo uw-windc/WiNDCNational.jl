@@ -40,12 +40,10 @@ function excel_intersection(range1::String, range2::String)
     return excel_intersection(ExcelRange(range1), ExcelRange(range2))
 end
 
-
-
-function initialize_tables(years::Vector{String})
-    ELEMENTS = DataFrame(
-        name = Any[parse.(Int, years)...],
-        description = years,
+function initialize_tables(years::Dict{Any, Any})
+        ELEMENTS = DataFrame(
+        name = Any[values(years)...],
+        description = Any[keys(years)...],
         set = Symbol[:year for _ in years]
     )
 
@@ -80,19 +78,27 @@ Examples of this file are available for the [summary data](https://github.com/uw
 
 ### metadata
 
-- years: A list of years covered by the data (e.g., [2020, 2021, 2022]). Defaults to "all".
-- supply_path: The path to the supply data. Defaults to ""
-- use_path: The path to the use data. Defaults to ""
-- supply_pattern: A regex pattern to match the file name of the supply table. Defaults to ""
-- use_pattern: A regex pattern to match the file name of the use table. Defaults to ""
-- transformation_keywords: A list of keywords for data transformation. Defaults to []
+There are two options for the metadata, either local or remote. 
 
-You must either specify both `use_path` and `supply_path` or `supply_pattern` and
-`use_pattern`. 
+Remote:
 
-The `transformation_keywords` are used to pass parameters to the data transformation 
+- download: A dictionary with keys the names of the tables and values (at least one needs to be provided):
+    - pattern: A regex pattern to match the file name.
+    - url: The URL to download the file from.
+- download_url_common: If the tables are contained a shared zip file. Defaults to "".
+
+Local:
+
+- paths: A dictionary with keys the names of the tables and values the file paths.
+
+Common: 
+
+- years: A dictionary of years with keys the sheet names and value the year `Dict{String, Int}`.
+- `transformation_keywords`: Used to pass parameters to the data transformation 
 functions. In particular, it's useful to have an `insurance_codes` keyword for 
 the redistribution of `CIF_FOB` data to imports and transport.
+- `na_values`: A list of values to treat as NA (not available). This is useful for
+  handling missing data in the Excel files.
 
 ### sets
 
@@ -137,23 +143,15 @@ function load_national_yaml(yaml_path::String)
 
     # Metadata
     if isempty(metadata)
-        @warn("Metadata section is missing in the YAML file, defaulting to all" * 
-             "years at the summary level"
-             )
+        error("Metadata section is missing in the YAML file")
     end
 
-    supply_path = get(metadata, "supply_path", "")
-    use_path = get(metadata, "use_path", "")
-    supply_pattern = get(metadata, "supply_pattern", "")
-    use_pattern = get(metadata, "use_pattern", "")
+    paths = get(metadata, "paths", Dict()) # Local
+    download = get(metadata, "download", Dict()) # Download
 
-    # Validate paths
-    (isempty(supply_path) && isempty(use_path)) || (!isempty(supply_path) && !isempty(use_path)) ||
-        error("Either provide both `supply_path` and `use_path` or neither.")
-
-    !(isempty(supply_path) && (isempty(supply_pattern) || isempty(use_pattern))) ||
-        error("If `supply_path` and `use_path` are not provided, `supply_pattern` and `use_pattern` must be specified.")
-
+    if isempty(paths) && isempty(download)
+        error("Either `paths` or `download` section must be provided in the metadata")
+    end
 
     for (set_name, set) in sets
         required_fields = ["description","domain","values","descriptions","table"] 
@@ -194,47 +192,61 @@ load the corresponding YAML files.
 
 For a full discussion on the structure of the YAML files, refer to [`load_national_yaml`](@ref).
 """
-function build_national_table(yaml_path::String, output_type::Type = T) where T<:AbstractNationalTable
+function build_national_table(yaml_path::String, output_type::Type{<:AbstractNationalTable}) 
     info = load_national_yaml(yaml_path)
 
     # Parse metadata
     metadata = get(info, "metadata", Dict())
 
 
-    years = get(metadata, "years", "all")
-    supply_path = get(metadata, "supply_path", "")
-    use_path = get(metadata, "use_path", "")
-    supply_pattern = get(metadata, "supply_pattern", "")
-    use_pattern = get(metadata, "use_pattern", "")
+    years = get(metadata, "years", Dict())
+    paths = get(metadata, "paths", Dict()) # Local
+    download = get(metadata, "download", Dict()) # Download
+    download_url_common = get(metadata, "download_url_common", "")
+
+    na_values = get(metadata, "na_values", [])
 
 
-    # Download the tables and extract the paths if necessary
-    if isempty(supply_path) || isempty(use_path)
-        use_path, supply_path = download_supply_use(Regex(use_pattern), Regex(supply_pattern))
+    tables = Dict{String, Any}()
+
+    if !isempty(paths)
+        for (table_name, table_data) in paths
+            if "path" ∉ keys(table_data)
+                error("Each entry in `paths` must have a `path` field.")
+            end
+            path = table_data["path"]
+            tables[table_name] = XLSX.readxlsx(path) # This is going to be a problem
+        end
+    elseif !isempty(download)
+        if !isempty(download_url_common)
+           paths = fetch_zip_data(
+                download_url_common,
+                Dict(table => Regex(d["pattern"]) for (table,d) in download)
+            )
+
+            for (table_name, path) in paths
+                tables[table_name] = XLSX.readxlsx(path)
+            end
+        end
+        
+        #for (table_name, table_data) in download
+
+        #end
+
     end
-
-    tables = Dict(
-        "use" => XLSX.readxlsx(use_path),
-        "supply" => XLSX.readxlsx(supply_path)
-    )
 
     
-    if years == "all" # If years is "all", extract all years from the use table
-        years = filter(x -> !isnothing(match(r"^\d{4}$", x)), XLSX.sheetnames(tables["use"]))
-    end
-    years = string.(years) # The sheet names are strings, so make sure years are strings.
 
     ELEMENTS, SETS, DATA = initialize_tables(years)
 
    # Build sets and elements
-    year = years[1] # Sets and elements are the same for all years.
+    year = first(keys(years)) # Sets and elements are the same for all years.
     for (set_name,set) in info["sets"]
 
         X = tables[set["table"]][year]
 
         # Create a new set
         push!(SETS, (name = Symbol(set_name), description = set["description"], domain = Symbol(set["domain"])))
-
         
         # Add all the elements
         names = parse_excel_set_elements(X[set["values"]])
@@ -263,10 +275,10 @@ function build_national_table(yaml_path::String, output_type::Type = T) where T<
 
     # Load data
     set_info = info["sets"]
-    for year in years
+    for (sheet_name, year) in years
         for (parm_name, parm) in info["parameters"]
-            X = tables[parm["table"]][year]
-            sign = parm["table"] == "use" ? -1 : 1 # Consider inputs to be negative
+            X = tables[parm["table"]][sheet_name]
+            sign = parm["table"] ∈ ["use", "value_added"] ? -1 : 1 # Consider inputs to be negative
             flip_sign = get(parm, "flip_sign", false) # Some parameters may need to flip the sign, `sector_subsidy` is the reason
             sign = flip_sign ? -sign : sign
 
@@ -286,14 +298,14 @@ function build_national_table(yaml_path::String, output_type::Type = T) where T<
                 x -> stack(x, Not(:row), variable_name = :col) |>
                 x -> dropmissing(x) |>
                 x -> subset(x,
-                    :value => ByRow(!=("...")), # Make metadata feature
+                    :value => ByRow(!in(na_values)), # Make metadata feature
                 ) |>
                 x -> transform(x,
                     :row => ByRow(y -> Symbol(parm_name)) => :parameter,
                     :row => (y -> Symbol.(y)) => :row,
                     :col => ByRow(y -> Symbol(y)) => :col,
                     :value => ByRow(y -> sign* (isa(y,String) ? parse(Float64, y) : y) /1_000) => :value,
-                    :row => ByRow(y -> parse(Int, year)) => :year,
+                    :row => ByRow(y -> year) => :year,
                 ) |>
                 x -> subset(x,
                     :value => ByRow(!=(0))
@@ -303,9 +315,7 @@ function build_national_table(yaml_path::String, output_type::Type = T) where T<
 
     end
 
-    X = T(DATA, SETS, ELEMENTS; regularity_check=true)
-
-
+    X = output_type(DATA, SETS, ELEMENTS; regularity_check=true)
     return X, metadata
 
 end
