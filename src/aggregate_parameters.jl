@@ -636,12 +636,18 @@ function import_tariff_rate(
     X = table(data, :Import, :Duty) |>
         x -> select(x, Not(:col)) |>
         x -> unstack(x, :parameter, column) |>
-        dropmissing |>
-        x -> transform(x,
+        dropmissing 
+        
+    if :duty ∉ names(X)
+        return DataFrame(:row => Symbol[], :col => Symbol[], :year => Int[], output => Any[], :parameter => Symbol[])
+    end
+        
+    X |>
+        x -> transform!(x,
             [:duty, :import] => ByRow((d,i) -> i==0 ? 0 : d/i) => output,
             :row => ByRow(_ -> (:itr, parameter)) => [:col, :parameter]
         ) |>
-        x -> select(x, [:row, :col, :year, :parameter, output])
+        x -> select!(x, [:row, :col, :year, :parameter, output])
 
     if minimal
         X |>
