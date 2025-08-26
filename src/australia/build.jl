@@ -1,3 +1,15 @@
+
+
+"""
+    build_australia_table(yaml_path::String)
+
+Build the Australia national table. Structure YAML file as specified by [build_national_table](@ref).
+
+!!!note
+    The data files provided by Australia are only available in XLSB format, which
+    Julia cannot open. There are also missing headers in final demand, supply extras,
+    and value added. More work is necessary to rectify these issues.
+"""
 function build_australia_table(yaml_path::String)
     X, metadata = build_national_table(yaml_path, AustraliaNational)
 

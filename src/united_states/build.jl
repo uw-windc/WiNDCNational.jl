@@ -1,6 +1,11 @@
 
+"""
+    build_us_table(yaml_path::String)
+    build_us_table(aggregation::Symbol = :summary)
 
-function build_us_table(yaml_path::String)#aggregation::Symbol = :summary)
+Build the US national table. Structure YAML file as specified by [build_national_table](@ref).
+"""
+function build_us_table(yaml_path::String)
     X, metadata = build_national_table(yaml_path, National)
 
     
