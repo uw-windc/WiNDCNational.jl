@@ -13,11 +13,7 @@ module WiNDCNational
 
     include("structs.jl")
 
-    export National, WiNDCtable, table, sets, domain, elements, base_table
-
-    include("load.jl")
-
-    export load_table_with_data
+    export National, AustraliaNational, WiNDCtable, table, sets, domain, elements, base_table
 
     include("aggregate_parameters.jl")
 
@@ -28,24 +24,25 @@ module WiNDCNational
 
     export calibrate
 
-    include("data/api.jl")
-
-    export download_supply_use
-
-    include("data/build.jl")
-
-    export build_national_table
-
-
     include("model.jl")
 
     export national_mpsge
 
+    include("api.jl")
 
+    include("build.jl")
 
-    #include("model.jl")
+    #include("united_states/api.jl")
 
-    #export national_mpsge
+    #export download_supply_use
+
+    include("united_states/build.jl")
+
+    export build_us_table
+
+    include("australia/build.jl")
+
+    export build_australia_table
 
 
 end # module WiNDCNational

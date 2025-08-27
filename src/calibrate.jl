@@ -8,7 +8,7 @@ Four parameters are considered to be exogenous and fixed in the calibration:
 - Labor Demand
 - Household Supply
 """
-function calibrate_fix_variables(M::Model, X::National)
+function calibrate_fix_variables(M::Model, X::AbstractNationalTable)
     table(X, :Import, :Export, :Labor_Demand, :Household_Supply) |>
         x -> transform(x,
             [:value, :variable] => ByRow((val, var) -> fix(var, val; force=true))
@@ -38,7 +38,7 @@ We fix the following tax rates:
 3. [`import_tariff_rate`](@ref)
 
 """
-function calibrate_constraints(M::Model, X::National; lower_bound = .01, upper_bound = 10) 
+function calibrate_constraints(M::Model, X::AbstractNationalTable; lower_bound = .01, upper_bound = 10) 
     market_clearance(X; column = :variable, output = :market_clearance) |>
         x -> @constraint(M, 
             market_clearance[i=1:size(x,1)],

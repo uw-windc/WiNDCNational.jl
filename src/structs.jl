@@ -1,6 +1,11 @@
 abstract type AbstractNationalTable <: WiNDCtable end
 
 
+domain(data::AbstractNationalTable) = [:row, :col, :year]
+base_table(data::AbstractNationalTable) = data.data
+sets(data::AbstractNationalTable) = data.sets
+elements(data::AbstractNationalTable) = data.elements
+
 """
     National
 
@@ -17,7 +22,8 @@ struct National <: AbstractNationalTable
 end
 
 
-domain(data::National) = [:row, :col, :year]
-base_table(data::National) = data.data
-sets(data::National) = data.sets
-elements(data::National) = data.elements
+struct AustraliaNational <: AbstractNationalTable
+    data::DataFrame
+    sets::DataFrame
+    elements::DataFrame
+end
