@@ -1,6 +1,6 @@
 
 """
-    national_mpsge(data::National; year = 2023)
+    national_mpsge(data::T; year = 2023) where T<:AbstractNationalTable
 
 Create a MPSGE model from the given National object.
 
@@ -102,9 +102,9 @@ end)
 
 
 """
-function national_mpsge(data::National; year = 2023)
+function national_mpsge(data::T; year = 2023) where T<:AbstractNationalTable
 
-    X = National(
+    X = T(
         table(data, :year => year),
         sets(data),
         elements(data)

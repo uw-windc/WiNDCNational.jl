@@ -1,7 +1,7 @@
 name = "WiNDCNational"
 uuid = "859d2a84-d038-44d0-959f-b84298eeb557"
 authors = ["Mitch Phillipson <mitch.phillipson@gmail.com>"]
-version = "0.2.0"
+version = "0.3.0"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
@@ -18,7 +18,7 @@ ZipFile = "a5390f91-8eb1-5f08-bee0-b1d1ffed6cea"
 [compat]
 CSV = "0.10.15"
 DataFrames = "1.7.0"
-DataStructures = "0.18.22"
+DataStructures = "0.18.22, 0.19"
 Downloads = "1.6.0"
 JuMP = "1.28.0"
 MPSGE = "0.6.1"
