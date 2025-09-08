@@ -1,7 +1,7 @@
 
 
 """
-    build_australia_table(yaml_path::String)
+    build_australia_table(yaml_path::String; base_dir::String = pwd())
 
 Build the Australia national table. Structure YAML file as specified by [`build_national_table`](@ref).
 
@@ -10,8 +10,8 @@ Build the Australia national table. Structure YAML file as specified by [`build_
     Julia cannot open. There are also missing headers in final demand, supply extras,
     and value added. More work is necessary to rectify these issues.
 """
-function build_australia_table(yaml_path::String)
-    X, metadata = build_national_table(yaml_path, AustraliaNational)
+function build_australia_table(yaml_path::String; base_dir::String = pwd())
+    X, metadata = build_national_table(yaml_path, AustraliaNational; base_dir = base_dir)
 
     X = create_margin_categories(X)
     X = create_pce_categories(X)
