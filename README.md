@@ -15,7 +15,7 @@ using DataFrames
 import MPSGE # import MPSGE to avoid name conflicts
 
 
-X = build_national_table(:summary)
+X = build_us_table(:summary)
 
 Y, M = calibrate(X) # Calibrate the model
 
