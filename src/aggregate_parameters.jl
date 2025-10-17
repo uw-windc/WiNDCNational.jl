@@ -634,7 +634,8 @@ function import_tariff_rate(
         minimal::Bool = true
     )
     X = table(data, :Import, :Duty) |>
-        x -> select(x, Not(:col)) |>
+        x -> select(x, [:row, :year, :parameter, column]) |>
+        #x -> select(x, Not(:col)) |>
         x -> unstack(x, :parameter, column) |>
         dropmissing 
         
