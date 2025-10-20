@@ -44,5 +44,7 @@ module WiNDCNational
 
     export build_australia_table
 
+    include("reconstruction.jl")
+
 
 end # module WiNDCNational
