@@ -5,10 +5,15 @@ using Documenter, WiNDCNational, Literate
 const _PAGES = [
     "Introduction" => ["index.md"],
     "Data" => [
-        "data_sources.md",
-        "data_build.md",
-        "sets.md"
-        ],
+        "United States" => [
+            "data/united_states/data_sources.md",
+            "data/united_states/data_build.md",
+            "data/united_states/sets.md"
+            ],
+        "Australia" => [
+            "data/australia/australia_data.md"
+            ]
+    ],
     "National Module" => ["overview.md"],
     "API" => ["api.md"]
 ]
