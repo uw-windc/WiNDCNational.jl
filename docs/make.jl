@@ -21,8 +21,8 @@ const _PAGES = [
 
 literate_files = Dict(
     "sets" => ( 
-        input = "src/sets.jl",
-        output = "src/"
+        input = "src/data/united_states/sets.jl",
+        output = "src/data/united_states/"
     ),
 )
 
