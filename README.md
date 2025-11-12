@@ -35,7 +35,7 @@ x -> sort(x, :diff)
 
 
 
-M = national_mpsge(Y; year = 2023)
+M = national_mpsge(Y) # add keyword year = 2023 to solve for a specific year
 MPSGE.solve!(M; cumulative_iteration_limit=0) # Solve at benchmark
 
 MPSGE.set_value!.(M[:Absorption_Tax], 0) # Set some taxes to 0
