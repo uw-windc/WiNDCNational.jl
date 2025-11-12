@@ -15,11 +15,13 @@ const _PAGES = [
         "United States" => [
             "data/united_states/data_sources.md",
             "data/united_states/data_build.md",
-            "data/united_states/sets.md"
+            "data/united_states/sets.md",
+            "data/united_states/build_local.md"
             ],
         "Australia" => [
-            "data/australia/australia_data.md"
-            ]
+            "data/australia/australia_data.md",
+            "data/australia/load_data.md"
+            ],
     ],
     "National Module" => ["overview.md"],
     "API" => ["api.md"]
