@@ -98,8 +98,9 @@ Common:
 
 - years: A dictionary of years with keys the sheet names and value the year `Dict{String, Int}`.
 - `transformation_keywords`: Used to pass parameters to the data transformation 
-functions. In particular, it's useful to have an `insurance_codes` keyword for 
-the redistribution of `CIF_FOB` data to imports and transport.
+functions. For the United States national tables, we use two transformations:
+    - `insurance_codes`: A list of insurance codes for the redistribution of `CIF_FOB` data to imports and transport.
+    - `marginal_commodities`: A list of marginal commodities to include in the transformation.
 - `na_values`: A list of values to treat as NA (not available). This is useful for
   handling missing data in the Excel files.
 

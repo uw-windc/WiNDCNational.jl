@@ -1,6 +1,13 @@
 using Documenter, WiNDCNational, Literate
 
+# Copy YAML Files to docs
+cp(joinpath(@__DIR__, "..", "src", "united_states", "summary.yaml"), # Source
+   joinpath(@__DIR__, "src", "data", "united_states", "summary.yaml"); # `Dest 
+   force = true)
 
+cp(joinpath(@__DIR__, "..", "src", "united_states", "detailed.yaml"), # Source
+   joinpath(@__DIR__, "src", "data", "united_states", "detailed.yaml"); # `Dest 
+   force = true)
 
 const _PAGES = [
     "Introduction" => ["index.md"],
