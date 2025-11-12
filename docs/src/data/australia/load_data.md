@@ -2,7 +2,7 @@
 
 To load the Australia data into WiNDC National, you first need to download the necessary tables from the Australian Bureau of Statistics (ABS) as described in the [Data Sources section](@ref australia_data_sources). Be sure to convert the downloaded files to `.xlsx`.
 
-An example YAML file can be [downloaded here](./australia.yaml). Update the `paths` section of the YAML file to point to the downloaded data files. In other words, replace
+An example YAML file can be [downloaded here](./australia_local.yaml). Update the `paths` section of the YAML file to point to the downloaded data files. In other words, replace
 ```yaml
   paths:
     use: 
@@ -24,3 +24,12 @@ The years section of the YAML file looks like:
     "2023-24": 2024
 ```
 The left hand side is the name of the sheet in the Excel file, and the right hand side is the year that will be used in WiNDC National. Modify this section if you are using different years or sheets.
+
+## Example Usage
+
+To load the data using the YAML file, use the following code in Julia:
+```julia
+australia_raw = build_australia_table("australia.yaml") # Change to your YAML file path
+
+australia,M = calibrate(australia_raw)
+```
