@@ -27,12 +27,13 @@ metadata:
     "2021": 2021
     "2022": 2022
     "2023": 2023
-  download_url_common: "https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip"
+    "2024": 2024
+  download_url_common: "https://apps.bea.gov/industry/release/zip/SUPPLY-USE.zip"
   download:
     supply:
-      pattern: "^Supply.*Summary.xlsx$"
+      pattern: "^Supply_Summary.xlsx$"
     use:
-      pattern: "^Use.*_Summary.xlsx$"
+      pattern: "^Use_Summary.xlsx$"
   transformation_keywords:
     insurance_codes:  
       - "524"

@@ -3,12 +3,12 @@ metadata:
     "2017": 2017
     "2012": 2012
     "2007": 2007
-  download_url_common: "https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip"
+  download_url_common: "https://apps.bea.gov/industry/release/zip/SUPPLY-USE.zip"
   download:
     supply:
-      pattern: "^Supply.*DET.xlsx$"
+      pattern: "^Supply_Detail.xlsx$"
     use:
-      pattern: "^Use.*_DET.xlsx$"
+      pattern: "^Use_SUT_Detail.xlsx$"
   transformation_keywords:
     insurance_codes: 
       - "524113"
