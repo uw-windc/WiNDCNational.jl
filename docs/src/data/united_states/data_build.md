@@ -6,7 +6,7 @@ The only necessary data for the national model is the BEA Supply and Use tables.
 
 ![BEA Supply and Use Tables](./images/sut.png)
 
-Note that the `Other_Final_Demand` region is a collection of multiple columns. However, in the national model we don't distinguish between the values so they are all treated as a single category. The data does not get aggregated together, retrieving that parameter returns all the raw data. 
+Note that the parameters `Investment_Final_Demand` and `Government_Final_Demand`are collections of multiple columns. However, in the national model we don't distinguish between the values so they are all treated as a single category. The data does not get aggregated together, retrieving that parameter returns all the raw data. 
 
 Coming from the BEA, this data is not suitable for use in our CGE models. In the following sections we will outline the steps taken to transform the raw data into a format suitable for our models.
 
@@ -38,13 +38,15 @@ We also create a new set `margin` which includes the NAICS codes for `Trade` and
 
 ## `Personal_Consumption` and `Household_Supply`
 
-The `Personal_Consumption` column has a mix of positive and negative values. This could should only contain negative values, as it is on the input side. The `Household_Supply` column is created from the positive values. 
+The `Personal_Consumption` column has a mix of positive and negative values. This could should only contain negative values, as it is on the input side. The `Household_Supply` column is created from the positive values.  This is done using the function [`WiNDCNational.create_pce_categories`](@ref).
 
 ## `Sector_Subsidy` and `Subsidy`
 
 The `Sector_Subsidy` is a new addition to the Supply/Use framework. It was introduced post-Covid to account for the large subsidies provided to various sectors of the economy. Direct from the BEA, this row is positive and it _should_ be negative. That means in our final data, this row should be positive, so we re-flip the sign. 
 
-This is in contrast to the `Subsidy` column which, direct from the BEA, is negative. Which is the correct sign so we make no adjustments. This is done using the function [`WiNDCNational.create_pce_categories`](@ref).
+This is in contrast to the `Subsidy` column which, direct from the BEA, is negative. Which is the correct sign so we make no adjustments. 
+
+There is no associated function for this step, the values come directly from the table.
 
 ## Marginal Commodities
 
@@ -55,7 +57,7 @@ Any goods that generate only margins should have no tax or subsidy associated wi
 In the US Supply/Use tables there are some negative capital demands. To fix this we adjust the value added parameters to ensure that all capital demands are non-negative. The adjustment is given by
 
 ```math 
-\\sum_{va} VA(year, va, sector) \\cdot \\frac{\\sum_{year} VA(year, va, sector)}{\\sum_{year, va} VA(year, va, sector)} 
+\sum_{va} VA(year, va, sector) \cdot \frac{\sum_{year} VA(year, va, sector)}{\sum_{year, va} VA(year, va, sector)} 
 ```
 
 This is done using the function [`WiNDCNational.adjust_negative_value_added`](@ref).

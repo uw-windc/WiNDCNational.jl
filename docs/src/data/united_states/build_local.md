@@ -4,7 +4,7 @@ By default the function [`build_us_table`](@ref) will download the latest data f
 
 ## Download Data
 
-Obviously, the first step to download the data and save it locally. This links to the necessary data are in the `Data Sources` section of the United States Data.
+Obviously, the first step to download the data and save it locally. This links to the necessary data are in the [`Data Sources`](@ref data_sources) section of the United States Data.
 
 ## Configuring the YAML file
 

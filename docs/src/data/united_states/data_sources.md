@@ -8,6 +8,6 @@ We only use one data source for the WiNDC National module, the Bureau of Economi
 
 Download the `SUPPLY-USE` data from the BEA website:
 
-[Link](https://apps.bea.gov/iTable/?reqid=1602&isuri=1&step=8&categories=Core)
+[BEA Supply/Use table](https://apps.bea.gov/iTable/?reqid=1602&isuri=1&step=8&categories=Core)
 
 
