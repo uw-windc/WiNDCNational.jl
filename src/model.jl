@@ -1,12 +1,16 @@
 
 """
-    national_mpsge(data::T; year = 2023) where T<:AbstractNationalTable
+    national_mpsge(data::T; year = elements(data, :year) |> x -> maximum(x[!, :name])) where T<:AbstractNationalTable
 
 Create a MPSGE model from the given National object.
 
 ## Required Arguments
 
 1. `data` - A National object.
+
+## Keyword Arguments
+
+- `year` - The year for which to build the model. Defaults to the maximum year in the data.
 
 ## Output
 
@@ -99,10 +103,8 @@ x -> @demand(M, RA, begin
 end)
 
 ```
-
-
 """
-function national_mpsge(data::T; year = 2023) where T<:AbstractNationalTable
+function national_mpsge(data::T; year = elements(data, :year) |> x -> maximum(x[!, :name])) where T<:AbstractNationalTable
 
     X = T(
         table(data, :year => year),
