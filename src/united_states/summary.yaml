@@ -37,6 +37,10 @@ metadata:
   transformation_keywords:
     insurance_codes:  
       - "524"
+    marginal_commodities:
+      - "441"
+      - "445"
+      - "452"
   na_values:
     - "..."
 sets:

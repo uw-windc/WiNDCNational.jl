@@ -14,6 +14,10 @@ metadata:
       - "524113"
       - "5241XX"
       - "524200"
+    marginal_commodities:
+      - "441000"
+      - "445000"
+      - "452000"
 sets:
   commodity:
     description: "Commodities"
