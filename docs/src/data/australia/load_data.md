@@ -2,7 +2,7 @@
 
 To load the Australia data into WiNDC National, you first need to download the necessary tables from the Australian Bureau of Statistics (ABS) as described in the [Data Sources section](@ref australia_data_sources). Be sure to convert the downloaded files to `.xlsx`.
 
-An example YAML file can be [downloaded here](australia.yaml). Update the `paths` section of the YAML file to point to the downloaded data files. In other words, replace
+An example YAML file can be [downloaded here](./australia.yaml). Update the `paths` section of the YAML file to point to the downloaded data files. In other words, replace
 ```yaml
   paths:
     use: 
