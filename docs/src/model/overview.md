@@ -38,12 +38,12 @@ The same idea holds for the consumer $RA$, except that outputs represent endowme
 
 This can be converted to a traditional social accounting matrix by taking the sectors and consumers on the rows and the commodities on the columns: 
 
-|           | $Y[s]$                    | $A[c]$              | $MS[m]$                   | $RA$ | 
-|:---:      |:---:                      |:---:                |:---:                      |:---:|
-| $PY[c]$   | Intermediate_Supply[c,s]  | -Gross_Output[c]    | -Margin_Supply[c,m]       | Household_Supply[c]      |         
-| $PA[c]$   | -Intermediate_Demand[c,s] | Armington_Supply[c] |                           | -Other_Final_Demand - Personal_Consumption[c]      |      
-| $PM[m]$   |                           | -Margin_Demand[c,s] | $\sum {\rm Margin\_Supply}[c,m]$ |       |      
-| $PFX$     |                           | Export[c]-Import[c] |                           | Balance_of_Payments     |    
-| $PVA[va]$ | Value_Added[va,s]         |                     |                           | $\sum {\rm Value\_Added}[va,s]$     |        
+|           | $Y[s]$         | $A[c]$        | $MS[m]$                    | $RA$ | 
+|:---:      |:---:           |:---:          |:---:                       |:---:|
+| $PY[c]$   | Int_Sup[c,s]   | -Gro_Out[c]   | -Mar_Sup[c,m]              | HS[c]      |         
+| $PA[c]$   | -Int_Dem[c,s]  | Arm_Sup[c] |  | -Other\_FD - PCE[c]        |       
+| $PM[m]$   |                | -Mar_Dem[c,m] | $\sum {\rm Mar\_Sup}[c,m]$ |       |      
+| $PFX$     |                | Exp[c]-Imp[c] |                            | BOP     |    
+| $PVA[va]$ | -Val_Add[va,s] |               |                            | $\sum {\rm Val\_Add}[va,s]$     |        
 
-However, doing so will obscure the nested structure of the production sectors, hide the elasticities, and require additional discussion to allocate taxes. 
+However, doing so will obscure the nested structure of the production sectors, hide the elasticities, and require additional discussion to allocate taxes. We also shortened the names of the input data for readability. Again, this would require additional explanation, whereas the tree version has the full names and structure visible.
