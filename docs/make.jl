@@ -23,7 +23,8 @@ const _PAGES = [
             "data/australia/load_data.md"
             ],
     ],
-    "National Module" => ["overview.md"],
+    "Calibration" => ["calibration.md"],
+    "The National Model" => ["model/overview.md"],
     "API" => ["api.md"]
 ]
 
@@ -51,7 +52,8 @@ makedocs(
     authors="Mitch Phillipson",
     format = Documenter.HTML(),
     modules = [WiNDCNational],
-    pages = _PAGES
+    pages = _PAGES,
+    assests = ["assets/custom.css"]
 )
 
 
