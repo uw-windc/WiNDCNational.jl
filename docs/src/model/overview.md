@@ -32,17 +32,18 @@ Notice the total value of this input at the benchmark equilibrium is the produce
 \end{align*}
 ```
 
+The same idea holds for the consumer $RA$, except that outputs represent endowments and inputs represent final demands.
 
+## Social Accounting Matrix
 
-## Social Account Matrix
+This can be converted to a traditional social accounting matrix by taking the sectors and consumers on the rows and the commodities on the columns: 
 
-This can be converted to a traditional social account matrix format by with the sectors and consumers on the rows and the commodities on the columns. However, doing so will obscure the nested structure of the production sectors, hide the elasticities, and require additional discussion to allocate taxes.
+|           | $Y[s]$                    | $A[c]$              | $MS[m]$                   | $RA$ | 
+|:---:      |:---:                      |:---:                |:---:                      |:---:|
+| $PY[c]$   | Intermediate_Supply[c,s]  | -Gross_Output[c]    | -Margin_Supply[c,m]       | Household_Supply[c]      |         
+| $PA[c]$   | -Intermediate_Demand[c,s] | Armington_Supply[c] |                           | -Other_Final_Demand - Personal_Consumption[c]      |      
+| $PM[m]$   |                           | -Margin_Demand[c,s] | $\sum {\rm Margin\_Supply}[c,m]$ |       |      
+| $PFX$     |                           | Export[c]-Import[c] |                           | Balance_of_Payments     |    
+| $PVA[va]$ | Value_Added[va,s]         |                     |                           | $\sum {\rm Value\_Added}[va,s]$     |        
 
-
-| | $Y[s]$ | $A[c]$ | $MS[m]$ | $RA$ | 
-|:---:|:---:|:---:|:---:|:---:|
-| $PY[c]$   |    |    |   |       |         
-| $PA[c]$   |    |    |   |       |      
-| $PM[m]$   |    |    |   |       |      
-| $PFX$     |    |    |   |       |    
-| $PVA[va]$ |    |    |   |       |        
+However, doing so will obscure the nested structure of the production sectors, hide the elasticities, and require additional discussion to allocate taxes. 

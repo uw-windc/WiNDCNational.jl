@@ -12,7 +12,7 @@ label("$RA$", (0,0));
 //outputs
 picture py_box;
 label(py_box, "$PY[c={\rm commodities}]$", (0,0));
-label(py_box, "${\rm Household\_Supply}[c,s]$", (0,0), 2*S);
+label(py_box, "${\rm Household\_Supply}[c]$", (0,0), 2*S);
 pair PY = (-8,5);
 draw( (0,0)--PY, Arrow, Margin(5,12));
 add(py_box, PY);
@@ -42,7 +42,7 @@ add(PVA_box, PVA);
 //inputs
 
 picture pa_in;
-label(pa_in, "$PA[c = {\rm commodities}]$, ${\rm Personal\_Consumption}[c,s]$", (0,0));
+label(pa_in, "$PA[c = {\rm commodities}]$, ${\rm Personal\_Consumption}[c]$", (0,0));
 pair PA_in = (0,-5);
 draw( PA_in -- (0, 0), Arrow, Margin(5,5) );
 add(pa_in, PA_in);
