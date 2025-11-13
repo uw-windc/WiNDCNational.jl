@@ -53,7 +53,7 @@ makedocs(
     format = Documenter.HTML(),
     modules = [WiNDCNational],
     pages = _PAGES,
-    assests = ["assets/custom.css"]
+    assets = ["assets/custom.css"]
 )
 
 
