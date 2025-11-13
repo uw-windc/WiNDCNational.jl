@@ -50,10 +50,10 @@ end
 makedocs(
     sitename="WiNDCNational.jl",
     authors="Mitch Phillipson",
-    format = Documenter.HTML(),
+    format = Documenter.HTML(assets = ["assets/custom.css"]),
     modules = [WiNDCNational],
     pages = _PAGES,
-    assets = ["assets/custom.css"]
+    
 )
 
 
