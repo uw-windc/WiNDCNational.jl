@@ -1,4 +1,4 @@
-# United States Data
+# Building the Data
 
 This page describes the process to build the US National data. The function to build the data is [`build_us_table`](@ref).
 

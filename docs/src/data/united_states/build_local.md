@@ -1,4 +1,4 @@
-# Build Data Locally
+# Building the Data Locally
 
 By default the function [`build_us_table`](@ref) will download the latest data from the BEA website. However, this isn't always ideal, you may not have access to the internet or want to save data to prevent later breaking changes. In these cases you can build the data locally by downloading the necessary files yourself and providing the file paths to the function.
 
