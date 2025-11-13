@@ -1,4 +1,4 @@
-# Model Overview
+# Overview
 
 The WiNDC National Model is written in [MPSGE](https://github.com/julia-mpsge/MPSGE.jl), a high level language for writing computable general equilibrium models. The syntax allows a modeler to focus on the economic structure of the model rather than the mathematical details of its implementation. For the full model specification, see the documentation: [`national_mpsge`](@ref). 
 
