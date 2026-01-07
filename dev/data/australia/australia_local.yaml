@@ -1,0 +1,282 @@
+metadata:
+  years: 
+    "2021-22": 2022
+    "2022-23": 2023
+    "2023-24": 2024
+  paths:
+    use: 
+      path: /path/to/australia_use_summary.xlsx
+    supply:
+      path: /path/to/australia_supply_summary.xlsx
+    value_added:
+      path: /path/to/australia_value_added_summary.xlsx
+  transformation_keywords:
+    insurance_codes: 
+      - "6301"
+  na_values:
+    - "n.p."
+sets:
+  commodity:
+    description: "Commodities"
+    domain: "row"
+    values : "A8:A122"
+    descriptions : "B8:B122"
+    table: "supply"
+  sector:
+    description: "Sectors"
+    domain: "col"
+    values : "C6:BR6"
+    descriptions : "C7:BR7"
+    table: "supply"
+  import:
+    description: "Imports"
+    domain: "col"
+    values: "BT7"
+    descriptions: "BT7"
+    value_labels:
+      - import
+    table: "supply"
+  trade:
+    description: "Trade"
+    domain: "col"
+    values: "BW6:BZ6"
+    descriptions: "BW7:BZ7"
+    value_labels:
+      - retail
+      - wholesale
+      - electric
+      - gas
+    table: "supply"
+  transport:
+    description: "Transport"
+    domain: "col"
+    values: "BV7"
+    descriptions: "BV7"
+    value_labels:
+      - transport
+    table: "supply"
+  tax:
+    description: "Tax"
+    domain: "col"
+    values: "CB7"
+    descriptions: "CB7"
+    value_labels:
+      - tax
+    table: "supply"
+
+
+  personal_consumption:
+    description: "Personal consumption expenditures"
+    domain: "col"
+    values: "BT7"
+    descriptions: "BT7"
+    value_labels:
+      - pce
+    table: "use"
+  investment_final_demand:
+    description: "Investment portions of final demand"
+    domain: "col"
+    values: "BV7:BX7"
+    descriptions: "BV7:BX7"
+    value_labels:
+      - private
+      - public
+      - general
+    table: "use"
+  export:
+    description: "Exports"
+    domain: "col"
+    values: "BZ6"
+    descriptions: "BZ7"
+    value_labels:
+      - export
+    table: "use"
+  reexport:
+    description: "Re-exports"
+    domain: "col"
+    values: "CA7"
+    descriptions: "CA7"
+    value_labels:
+      - reexport
+    table: "use"
+  government_final_demand:
+    description: "Government portions of final demand"
+    domain: "col"
+    values: "BU7"
+    descriptions: "BU7"
+    value_labels:
+      - gce
+    table: "use"
+
+  labor_demand:
+    description: "Compensation of employees"
+    domain: "row"
+    values: "A8"
+    descriptions: "A8"
+    value_labels:
+      - labor
+    table: "value_added"
+  capital_demand:
+    description: "Gross operating surplus"
+    domain: "row"
+    values: "A9"
+    descriptions: "A9"
+    value_labels:
+      - capital
+    table: "value_added"
+  output_tax:
+    description: "Output tax"
+    domain: "row"
+    values: "A11"
+    descriptions: "A11"
+    value_labels:
+      - output_tax
+    table: "value_added"
+
+parameters:
+  intermediate_supply:
+    param: "Intermediate_Supply"
+    description: ""
+    row: "commodity"
+    col: "sector"
+    table: "supply"
+  import:
+    param: "Import"
+    description: ""
+    row: "commodity"
+    col: "import"
+    table: "supply"
+  transport:
+    param: "Transport"
+    description: ""
+    row: "commodity"
+    col: "transport"
+    table: "supply"
+  trade:
+    param: "Trade"
+    description: ""
+    row: "commodity"
+    col: "trade"
+    table: "supply"
+  tax:
+    param: "Tax"
+    description: ""
+    row: "commodity"
+    col: "tax"
+    table: "supply"
+
+  intermediate_demand:
+    param: "Intermediate_Demand"
+    description: ""
+    row: "commodity"
+    col: "sector"
+    table: "use"
+
+  labor_demand:
+    param: "Labor_Demand"
+    description: ""
+    row: "labor_demand"
+    col: "sector"
+    table: "value_added"
+  capital_demand:
+    param: "Capital_Demand"
+    description: ""
+    row: "capital_demand"
+    col: "sector"
+    table: "value_added"
+
+  output_tax:
+    param: "Output_Tax"
+    description: ""
+    row: "output_tax"
+    col: "sector"
+    table: "value_added"
+
+  personal_consumption:
+    param: "Personal_Consumption"
+    description: ""
+    row: "commodity"
+    col: "personal_consumption"
+    table: "use"
+
+  investment_final_demand:
+    param: "Investment_Final_Demand"
+    description: ""
+    row: "commodity"
+    col: "investment_final_demand"
+    table: "use"
+
+  export:
+    param: "Export"
+    description: ""
+    row: "commodity"
+    col: "export"
+    table: "use"
+
+  reexport:
+    param: "Reexport"
+    description: ""
+    row: "commodity"
+    col: "reexport"
+    table: "use"
+
+  government_final_demand:
+    param: "Government_Final_Demand"
+    description: ""
+    row: "commodity"
+    col: "government_final_demand"
+    table: "use"
+
+
+composite_parameters:
+  Value_Added:
+    description: "Value added"
+    elements: 
+      - "labor_demand"
+      - "capital_demand"
+  Final_Demand:
+    description: "Final demand"
+    elements: 
+      - "personal_consumption"
+      - "investment_final_demand"
+      - "government_final_demand"
+      - "export"
+  Other_Final_Demand:
+    description: "Non-export components of final demand"
+    elements: 
+      - "personal_consumption"
+      - "investment_final_demand"
+      - "government_final_demand"
+  Use:
+    description: "Use (or input) sections of the IO table"
+    elements: 
+      - "intermediate_demand"
+      - "labor_demand"
+      - "capital_demand"
+      - "output_tax"
+      - "personal_consumption"
+      - "investment_final_demand"
+      - "government_final_demand"
+      - "export"
+      - "margin_supply"
+  Supply:
+    description: "Supply (or output) sections of the IO table"
+    elements: 
+      - "intermediate_supply"
+      - "import"
+      - "margin_demand"
+      - "tax"
+
+  Sector_Subsidy:
+    description: "Subsidies by sector"
+    elements: 
+      - "sector_subsidy"
+  Subsidy:
+    description: "Total subsidies"
+    elements: 
+      - "subsidy"
+
+  Duty:
+    description: "Total duties"
+    elements: 
+      - "duty"
