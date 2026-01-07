@@ -6,6 +6,8 @@ We only use one data source for the WiNDC National module, the Bureau of Economi
 
 ## Bureau of Economic Analysis - Summary Input/Output Tables
 
-[Link](https://www.bea.gov/industry/input-output-accounts-data)
+Download the `SUPPLY-USE` data from the BEA website:
+
+[BEA Supply/Use table](https://apps.bea.gov/iTable/?reqid=1602&isuri=1&step=8&categories=Core)
 
 

@@ -30,3 +30,8 @@ JuliaLocalPreferences.toml
 main.jl
 settings.json
 .vscode/settings.json
+
+*.aux
+*.log
+summary_local.yaml
+australia.yaml

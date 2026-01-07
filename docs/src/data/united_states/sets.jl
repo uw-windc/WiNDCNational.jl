@@ -73,7 +73,7 @@ elements(summary, :Value_Added)
 
 # ## Composite Parameters
 
-# Some parameters are require aggregations and can't be extracted directly. Here
+# Some parameters require aggregations and can't be extracted directly. Here
 # is a full list of these parameters:
 #
 # - [`zero_profit`](@ref)

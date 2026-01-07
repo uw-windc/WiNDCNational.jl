@@ -4,6 +4,15 @@
     build_us_table(aggregation::Symbol = :summary)
 
 Build the US national table. Structure YAML file as specified by [`build_national_table`](@ref).
+
+The data is loaded and then transformed using the following processing steps:
+
+1. [`redistribute_cif_fob`])(@ref)
+2. [`create_margin_categories`](@ref)
+3. [`create_pce_categories`](@ref)
+4. [`adjust_intermediate_flows`](@ref)
+5. [`adjust_negative_value_added`](@ref)
+6. [`zero_marginal_tax_subsidy`](@ref)
 """
 function build_us_table(yaml_path::String; base_dir = pwd())
     X, metadata = build_national_table(yaml_path, National; base_dir = base_dir)
@@ -15,6 +24,8 @@ function build_us_table(yaml_path::String; base_dir = pwd())
     X = create_margin_categories(X; transformation_keywords...)
     X = create_pce_categories(X; transformation_keywords...)
     X = adjust_intermediate_flows(X; transformation_keywords...)
+    X = adjust_negative_value_added(X; transformation_keywords...)
+    X = zero_marginal_tax_subsidy(X; transformation_keywords...)
 
     return X
 end
@@ -240,4 +251,80 @@ function adjust_intermediate_flows(X::National; kwargs...)
 
 end
 
+"""
+    adjust_negative_value_added(X::National; kwargs...)
 
+There are negative capital demeands in the US table. This function adjusts value added
+to ensure that all capital demands are non-negative. The adjustment is given by
+
+```math 
+\\sum_{va} VA(year, va, sector) \\cdot \\frac{\\sum_{year} VA(year, va, sector)}{\\sum_{year, va} VA(year, va, sector)} 
+```
+
+for any negative value in value added.
+
+Returns a National table.
+"""
+function adjust_negative_value_added(X::National; kwargs...)
+    DATA = table(X)
+    SETS = sets(X)
+    ELEMENTS = elements(X)
+
+    shares = table(X, :Value_Added) |>
+        x -> groupby(x, [:col]) |>
+        x -> combine(x, 
+            [:year, :row, :parameter, :value] .=> identity .=> [:year, :row, :parameter, :value],
+            :value => sum => :total_value
+        ) |>
+        x -> groupby(x, [:row, :col, :parameter]) |>
+        x -> combine(x, 
+            :year => identity => :year,
+            [:value, :total_value] => ((v,tv) -> sum(v)./tv) => :share
+        ) 
+
+    new_value_added = outerjoin(
+            table(X, :Value_Added),
+            shares,
+            on = [:year, :row, :col, :parameter]
+        ) |>
+        x -> groupby(x, [:col, :year]) |>
+        x -> combine(x,
+            [:row, :parameter] .=> identity .=> [:row, :parameter],
+            [:value, :share] => (
+                (v,s) -> ifelse.(v.<0, v, s.*sum(v))
+                ) => :value
+        )
+    
+    va_params = elements(X, :Value_Added; base=true) |> x -> x[!,:set]
+
+    DATA = DATA |>
+        x -> subset(x,
+            :parameter => ByRow(!∈(va_params))
+        ) |>
+        x -> vcat(x, new_value_added)
+
+
+
+    return National(DATA, SETS, ELEMENTS; regularity_check=true)
+end
+
+
+"""
+    zero_marginal_tax_subsidy(X::National; marginal_commodities::Vector{String} = [], kwargs...)
+    
+Set the subsidy and tax parameters for marginal commodities to zero.
+
+Returns a National table.
+"""
+function zero_marginal_tax_subsidy(X::National; marginal_commodities::Vector{String} = [], kwargs...)
+    DATA = table(X)
+    SETS = sets(X)
+    ELEMENTS = elements(X)
+
+    DATA = DATA |>
+        x -> subset(x,
+            [:row, :parameter] => ByRow((r,p) -> !( (r in Symbol.(marginal_commodities)) && (p in (:subsidy, :tax)) ))
+        )
+
+    return National(DATA, SETS, ELEMENTS; regularity_check=true)
+end

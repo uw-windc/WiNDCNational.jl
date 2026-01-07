@@ -14,7 +14,7 @@ using WiNDCNational
 using DataFrames
 import MPSGE
 
-summary = build_national_table(:summary) # replace :summary with :detailed for the detailed tables
+summary = build_us_table(:summary) # replace :summary with :detailed for the detailed tables
 
 zero_profit(summary) # Checking zero profit, not all values are zero
 market_clearance(summary)

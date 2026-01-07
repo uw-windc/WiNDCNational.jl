@@ -1,5 +1,3 @@
-
-
 function parse_excel_set_elements(data::Matrix{Any})
     1∈size(data) || error("Must be either a column or row vector")
     return vec(data)
@@ -9,6 +7,7 @@ function parse_excel_set_elements(data::String)
     return [data]
 end
 
+parse_excel_set_elements(::Missing) = missing
 
 
 struct ExcelRange
@@ -98,8 +97,9 @@ Common:
 
 - years: A dictionary of years with keys the sheet names and value the year `Dict{String, Int}`.
 - `transformation_keywords`: Used to pass parameters to the data transformation 
-functions. In particular, it's useful to have an `insurance_codes` keyword for 
-the redistribution of `CIF_FOB` data to imports and transport.
+functions. For the United States national tables, we use two transformations:
+    - `insurance_codes`: A list of insurance codes for the redistribution of `CIF_FOB` data to imports and transport.
+    - `marginal_commodities`: A list of marginal commodities to include in the transformation.
 - `na_values`: A list of values to treat as NA (not available). This is useful for
   handling missing data in the Excel files.
 
@@ -111,7 +111,8 @@ Each set is listed with the following attributes:
 - domain - Which column the set operates on
 - values - An Excel range that corresponds to the NAICS codes
 - descriptions - An Excel range that corresponds to the descriptions of the NAICS codes
-- table - Either "use" or "supply"
+- table - Needs to match the listed paths for download names
+- value_labels (optional) - A list of labels for the set elements. If not provided, the values from the Excel range will be used.
 
 ### parameters
 
@@ -121,7 +122,7 @@ Each parameter name is listed with the following attributes:
 - description - A description of the parameter
 - row - The row set of the parameter.
 - col - The column set of the parameter
-- table - Either "use" or "supply"
+- table - Needs to match the listed paths for download names
 - flip_sign - Boolean, changes the sign of the data. Only used on `sector_subsidy` 
     since the values are reported as positive, but must be negative.
 
@@ -245,18 +246,21 @@ function build_national_table(yaml_path::String, output_type::Type{<:AbstractNat
    # Build sets and elements
     year = first(keys(years)) # Sets and elements are the same for all years.
     for (set_name,set) in info["sets"]
-
         X = tables[set["table"]][year]
 
         # Create a new set
         push!(SETS, (name = Symbol(set_name), description = set["description"], domain = Symbol(set["domain"])))
         
-        # Add all the elements
-        names = parse_excel_set_elements(X[set["values"]])
+        # Add all the elements - Perhaps an error should be thrown if both value_labels and values are missing
+        names = Symbol.(get(set, "value_labels", []))
+        if isempty(names)
+            names = Symbol.(parse_excel_set_elements(X[set["values"]]))
+        end
+
         ELEMENTS = vcat(
             ELEMENTS, 
             DataFrame(
-                name = Symbol.(names),
+                name = names,
                 description = parse_excel_set_elements(X[set["descriptions"]]),
                 set = repeat([Symbol(set_name)], length(names))
             ) 
@@ -285,8 +289,15 @@ function build_national_table(yaml_path::String, output_type::Type{<:AbstractNat
             flip_sign = get(parm, "flip_sign", false) # Some parameters may need to flip the sign, `sector_subsidy` is the reason
             sign = flip_sign ? -sign : sign
 
-            row_range = set_info[parm["row"]]["values"]
-            col_range = set_info[parm["col"]]["values"]
+            row_names = Symbol.(get(set_info[parm["row"]], "value_labels", []))
+            if isempty(row_names)
+                row_names = Symbol.(parse_excel_set_elements(X[set_info[parm["row"]]["values"]]))
+            end
+
+            col_names = Symbol.(get(set_info[parm["col"]], "value_labels", []))
+            if isempty(col_names)
+                col_names = Symbol.(parse_excel_set_elements(X[set_info[parm["col"]]["values"]]))
+            end
 
             # Transform set ranges into a rectangular excel range
             data_range = excel_intersection(
@@ -294,9 +305,10 @@ function build_national_table(yaml_path::String, output_type::Type{<:AbstractNat
                 ExcelRange(set_info[parm["col"]]["values"])
             )
 
+
             new_data = DataFrame(
-                    [Symbol.(parse_excel_set_elements(X[row_range])) X[data_range]],
-                    [:row, Symbol.(parse_excel_set_elements(X[col_range]))...]
+                    [row_names X[data_range]],
+                    [:row, col_names...]
                 ) |>
                 x -> stack(x, Not(:row), variable_name = :col) |>
                 x -> dropmissing(x) |>
@@ -305,7 +317,7 @@ function build_national_table(yaml_path::String, output_type::Type{<:AbstractNat
                 ) |>
                 x -> transform(x,
                     :row => ByRow(y -> Symbol(parm_name)) => :parameter,
-                    :row => (y -> Symbol.(y)) => :row,
+                    #:row => (y -> Symbol.(y)) => :row,
                     :col => ByRow(y -> Symbol(y)) => :col,
                     :value => ByRow(y -> sign* (isa(y,String) ? parse(Float64, y) : y) /1_000) => :value,
                     :row => ByRow(y -> year) => :year,
@@ -313,6 +325,7 @@ function build_national_table(yaml_path::String, output_type::Type{<:AbstractNat
                 x -> subset(x,
                     :value => ByRow(!=(0))
                 )
+
             DATA = vcat(DATA, new_data)
         end
 

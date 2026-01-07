@@ -1,121 +1,137 @@
 metadata:
   years: 
-    "2017": 2017
-    "2012": 2012
-    "2007": 2007
-  download_url_common: "https://apps.bea.gov/industry/release/zip/SUPPLY-USE.zip"
-  download:
+    "2021-22": 2022
+    "2022-23": 2023
+    "2023-24": 2024
+  paths:
+    use: 
+      path: /path/to/australia_use_summary.xlsx
     supply:
-      pattern: "^Supply_Detail.xlsx$"
-    use:
-      pattern: "^Use_SUT_Detail.xlsx$"
+      path: /path/to/australia_supply_summary.xlsx
+    value_added:
+      path: /path/to/australia_value_added_summary.xlsx
   transformation_keywords:
     insurance_codes: 
-      - "524113"
-      - "5241XX"
-      - "524200"
-    marginal_commodities:
-      - "441000"
-      - "445000"
-      - "452000"
+      - "6301"
+  na_values:
+    - "n.p."
 sets:
   commodity:
     description: "Commodities"
     domain: "row"
-    values : "A7:A408"
-    descriptions : "B7:B408"
+    values : "A8:A122"
+    descriptions : "B8:B122"
     table: "supply"
   sector:
     description: "Sectors"
     domain: "col"
-    values : "C6:ON6"
-    descriptions : "C5:ON5"
+    values : "C6:BR6"
+    descriptions : "C7:BR7"
     table: "supply"
   import:
     description: "Imports"
     domain: "col"
-    values: "OP6"
-    descriptions: "OP5"
-    table: "supply"
-  cif_fob:
-    description: "CIF-FOB"
-    domain: "col"
-    values: "OQ6"
-    descriptions: "OQ5"
+    values: "BT7"
+    descriptions: "BT7"
+    value_labels:
+      - import
     table: "supply"
   trade:
     description: "Trade"
     domain: "col"
-    values: "OS6"
-    descriptions: "OS5"
+    values: "BW6:BZ6"
+    descriptions: "BW7:BZ7"
+    value_labels:
+      - retail
+      - wholesale
+      - electric
+      - gas
     table: "supply"
   transport:
     description: "Transport"
     domain: "col"
-    values: "OT6"
-    descriptions: "OT5"
-    table: "supply"
-  duty:
-    description: "Duty"
-    domain: "col"
-    values: "OV6"
-    descriptions: "OV5"
+    values: "BV7"
+    descriptions: "BV7"
+    value_labels:
+      - transport
     table: "supply"
   tax:
     description: "Tax"
     domain: "col"
-    values: "OW6"
-    descriptions: "OW5"
+    values: "CB7"
+    descriptions: "CB7"
+    value_labels:
+      - tax
     table: "supply"
-  subsidy:
-    description: "Subsidy"
-    domain: "col"
-    values: "OX6"
-    descriptions: "OX5"
-    table: "supply"
+
 
   personal_consumption:
     description: "Personal consumption expenditures"
     domain: "col"
-    values: "OP6"
-    descriptions: "OP5"
+    values: "BT7"
+    descriptions: "BT7"
+    value_labels:
+      - pce
     table: "use"
   investment_final_demand:
     description: "Investment portions of final demand"
     domain: "col"
-    values: "OQ6:OU6"
-    descriptions: "OQ5:OU5"
+    values: "BV7:BX7"
+    descriptions: "BV7:BX7"
+    value_labels:
+      - private
+      - public
+      - general
     table: "use"
   export:
     description: "Exports"
     domain: "col"
-    values: "OV6"
-    descriptions: "OV5"
+    values: "BZ6"
+    descriptions: "BZ7"
+    value_labels:
+      - export
+    table: "use"
+  reexport:
+    description: "Re-exports"
+    domain: "col"
+    values: "CA7"
+    descriptions: "CA7"
+    value_labels:
+      - reexport
     table: "use"
   government_final_demand:
     description: "Government portions of final demand"
     domain: "col"
-    values: "OW6:PH6"
-    descriptions: "OW5:PH5"
+    values: "BU7"
+    descriptions: "BU7"
+    value_labels:
+      - gce
     table: "use"
+
   labor_demand:
     description: "Compensation of employees"
     domain: "row"
-    values: "A410"
-    descriptions: "B410"
-    table: "use"
+    values: "A8"
+    descriptions: "A8"
+    value_labels:
+      - labor
+    table: "value_added"
   capital_demand:
     description: "Gross operating surplus"
     domain: "row"
-    values: "A412"
-    descriptions: "B412"
-    table: "use"
+    values: "A9"
+    descriptions: "A9"
+    value_labels:
+      - capital
+    table: "value_added"
   output_tax:
     description: "Output tax"
     domain: "row"
-    values: "A411"
-    descriptions: "B411"
-    table: "use"
+    values: "A11"
+    descriptions: "A11"
+    value_labels:
+      - output_tax
+    table: "value_added"
 
 parameters:
   intermediate_supply:
@@ -123,12 +139,6 @@ parameters:
     description: ""
     row: "commodity"
     col: "sector"
-    table: "supply"
-  cif_fob:
-    param: "CIF_FOB"
-    description: ""
-    row: "commodity"
-    col: "cif_fob"
     table: "supply"
   import:
     param: "Import"
@@ -148,23 +158,11 @@ parameters:
     row: "commodity"
     col: "trade"
     table: "supply"
-  duty:
-    param: "Duty"
-    description: ""
-    row: "commodity"
-    col: "duty"
-    table: "supply"
   tax:
     param: "Tax"
     description: ""
     row: "commodity"
     col: "tax"
-    table: "supply"
-  subsidy:
-    param: "Subsidy"
-    description: ""
-    row: "commodity"
-    col: "subsidy"
     table: "supply"
 
   intermediate_demand:
@@ -179,20 +177,20 @@ parameters:
     description: ""
     row: "labor_demand"
     col: "sector"
-    table: "use"
+    table: "value_added"
   capital_demand:
     param: "Capital_Demand"
     description: ""
     row: "capital_demand"
     col: "sector"
-    table: "use"
+    table: "value_added"
 
   output_tax:
     param: "Output_Tax"
     description: ""
     row: "output_tax"
     col: "sector"
-    table: "use"
+    table: "value_added"
 
   personal_consumption:
     param: "Personal_Consumption"
@@ -213,6 +211,13 @@ parameters:
     description: ""
     row: "commodity"
     col: "export"
+    table: "use"
+
+  reexport:
+    param: "Reexport"
+    description: ""
+    row: "commodity"
+    col: "reexport"
     table: "use"
 
   government_final_demand:
@@ -242,19 +247,12 @@ composite_parameters:
       - "personal_consumption"
       - "investment_final_demand"
       - "government_final_demand"
-
-  Sector_Subsidy:
-    description: "This parameter exists in the summary tables, but not in the 2017 detailed tables. It may be added to the detailed tables in the future."
-    elements: 
-      - "sector_subsidy"
-
   Use:
     description: "Use (or input) sections of the IO table"
     elements: 
       - "intermediate_demand"
       - "labor_demand"
       - "capital_demand"
-      - "sector_subsidy"
       - "output_tax"
       - "personal_consumption"
       - "investment_final_demand"
@@ -267,6 +265,18 @@ composite_parameters:
       - "intermediate_supply"
       - "import"
       - "margin_demand"
-      - "duty"
       - "tax"
+
+  Sector_Subsidy:
+    description: "Subsidies by sector"
+    elements: 
+      - "sector_subsidy"
+  Subsidy:
+    description: "Total subsidies"
+    elements: 
       - "subsidy"
+
+  Duty:
+    description: "Total duties"
+    elements: 
+      - "duty"

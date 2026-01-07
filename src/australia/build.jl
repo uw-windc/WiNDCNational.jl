@@ -161,16 +161,11 @@ function merge_export_reexport(X::AustraliaNational; kwargs...)
     SETS = SETS |> 
         x -> subset(x,
             :name => ByRow(!∈([:Reexport]))
-        ) #|>
-        #x -> push!(x, (name = :Household_Supply, description = "Positive values in PCE (negative in USE table)", domain = :parameter)) |>
-        #x -> push!(x, (name = :Personal_Consumption, description = "Negative values in PCE (positive in USE table)", domain = :parameter))
-
+        ) 
     ELEMENTS = ELEMENTS |>
         x -> subset(x,
             :set => ByRow(!∈([:Reexport]))
-        ) #|>
-        #x -> push!(x, (name = :household_supply, description = "Household Supply", set = :Household_Supply)) |>
-        #x -> push!(x, (name = :personal_consumption, description = "Personal Consumption", set = :Personal_Consumption))
+        ) 
 
     return AustraliaNational(DATA, SETS, ELEMENTS; regularity_check=true)
 
