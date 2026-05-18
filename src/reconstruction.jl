@@ -1,10 +1,10 @@
 function quantity(S::MPSGE.Sector, C::MPSGE.Commodity; sign = -1)
-    return sign * value(S)*value(C)*value(compensated_demand(S,C; virtual=true))
+    return sign * value(S)*value(C)*value(compensated_demand(S,C; depth=0))
 end
 
 function quantity(S::MPSGE.Sector, C::MPSGE.Commodity, nest::Symbol; sign = -1)
     try
-        return sign * value(S)*value(C)*value(compensated_demand(S,C, nest; virtual=true))
+        return sign * value(S)*value(C)*value(compensated_demand(S,C, nest; depth=0))
     catch e
         return 0
     end
